@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { searchFlathub, getPopularFlathub } from './flathubApi';
+import { searchFlathub } from './flathubApi';
 
 describe('flathubApi service tests', () => {
   const originalFetch = globalThis.fetch;
@@ -112,46 +112,4 @@ describe('flathubApi service tests', () => {
     });
   });
 
-  describe('getPopularFlathub', () => {
-    it('busca duas páginas simultaneamente e une resultados sem duplicatas', async () => {
-      const page1 = {
-        hits: [
-          { app_id: 'org.gimp.GIMP', name: 'GIMP', summary: 'Image Editor' },
-          { app_id: 'org.inkscape.Inkscape', name: 'Inkscape', summary: 'Vector Editor' }
-        ]
-      };
-
-      const page2 = {
-        hits: [
-          { app_id: 'org.gimp.GIMP', name: 'GIMP', summary: 'Image Editor' },
-          { app_id: 'org.videolan.VLC', name: 'VLC', summary: 'Media Player' }
-        ]
-      };
-
-      globalThis.fetch = vi.fn()
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => page1
-        })
-        .mockResolvedValueOnce({
-          ok: true,
-          json: async () => page2
-        });
-
-      const results = await getPopularFlathub(1, 100);
-      expect(results).toHaveLength(3);
-      const ids = results.map(r => r.id);
-      expect(ids).toEqual(['org.gimp.GIMP', 'org.inkscape.Inkscape', 'org.videolan.VLC']);
-    });
-
-    it('retorna array vazio se requisição falhar', async () => {
-      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
-
-      globalThis.fetch = vi.fn().mockRejectedValue(new Error('Network error'));
-
-      const results = await getPopularFlathub();
-      expect(results).toEqual([]);
-      consoleErrorSpy.mockRestore();
-    });
-  });
 });

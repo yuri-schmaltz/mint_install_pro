@@ -6,4 +6,3 @@ __pycache__/
 .DS_Store
 *.deb
 test-results/
-test-results/

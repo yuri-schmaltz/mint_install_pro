@@ -1,9 +1,7 @@
 #!/usr/bin/env python3
 import os
 import shutil
-import glob
 import json
-import configparser
 import urllib.request
 import apt
 import subprocess
@@ -285,25 +283,11 @@ except Exception as e:
 
 print(f"Total consolidado no catálogo da plataforma: {len(catalog)} aplicativos!")
 
-# 7. Gravar src/data/initialApps.js com ordenação estrita das categorias
-categories_list = [
-  {"id": "picks", "label": "Início", "icon": "Sparkles"},
-  {"id": "accessories", "label": "Acessórios", "icon": "Wrench"},
-  {"id": "development", "label": "Código", "icon": "Code"},
-  {"id": "office", "label": "Escritório", "icon": "Briefcase"},
-  {"id": "flatpak", "label": "Flatpak", "icon": "Boxes"},
-  {"id": "graphics", "label": "Gráficos", "icon": "Image"},
-  {"id": "internet", "label": "Internet", "icon": "Globe"},
-  {"id": "games", "label": "Jogos", "icon": "Gamepad2"},
-  {"id": "sound-video", "label": "Mídias", "icon": "Film"},
-  {"id": "system", "label": "Sistema", "icon": "Cpu"},
-  {"id": "all", "label": "Todos", "icon": "Grid"}
-]
-
-js_content = f"""// Catálogo Completo da Plataforma Linux Mint com ~200 Apps por Categoria (Idêntico ao MintInstall Oficial)
+# 7. Gravar o catálogo usando a fonte canônica das categorias.
+js_content = f"""// Catálogo de aplicativos APT e Flatpak do Linux Mint.
 export const initialApps = {json.dumps(catalog, indent=2, ensure_ascii=False)};
 
-export const categoriesList = {json.dumps(categories_list, indent=2, ensure_ascii=False)};
+export {{ categoriesList }} from "./categoriesList.js";
 """
 
 with open("src/data/initialApps.js", "w", encoding="utf-8") as f:

@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import { initialApps, categoriesList } from '../src/data/initialApps.js';
-import { searchFlathub, getPopularFlathub } from '../src/services/flathubApi.js';
+import { searchFlathub } from '../src/services/flathubApi.js';
 
 let passed = 0;
 let failed = 0;
@@ -113,7 +113,7 @@ console.log('\n8. Verificação da Aba e Suporte Flathub:');
 const flatpakCategory = categoriesList.find(c => c.id === 'flatpak');
 assert(!!flatpakCategory, 'Aba "flatpak" está registrada em categoriesList');
 assert(typeof searchFlathub === 'function', 'Função de busca ao vivo no Flathub (searchFlathub) disponível');
-assert(typeof getPopularFlathub === 'function', 'Função de catálogo popular Flathub (getPopularFlathub) disponível');
+assert(fs.existsSync('public/icons/software-manager.png'), 'Ícone fallback da pesquisa Flathub presente');
 
 // Test 9: Lógica do Contador com Suporte até 999 e Prefixo '+' para Overflow
 console.log('\n9. Verificação do Contador de Categorias (Tamanho fixo e suporte a > 999):');
@@ -184,7 +184,7 @@ assert(allLabelsMatch, `Todos os 12 rótulos concisos coincidem: [${expectedLabe
 console.log('\n12. Verificação de Empacotamento Debian e Documentos Oficiais:');
 const requiredDocs = [
   'README.md', 'ABOUT.md', 'LICENSE', 'CONTRIBUTING.md',
-  'SECURITY.md', 'CHANGELOG.md', 'docs/acceptance_criteria_audit.md'
+  'SECURITY.md', 'CHANGELOG.md', 'RELATORIO_TESTES.md'
 ];
 requiredDocs.forEach(doc => {
   const docPath = path.join(process.cwd(), doc);
@@ -243,8 +243,8 @@ if (catalogJsonExists) {
   const jsSize = fs.statSync(path.join(process.cwd(), 'src/data/initialApps.js')).size;
   assert(jsonSize < jsSize, `JSON lazy é menor que o .js estático (json=${(jsonSize/1024).toFixed(0)}KB < js=${(jsSize/1024).toFixed(0)}KB)`);
 }
-const indexJsonPath = path.join(process.cwd(), 'public/data/catalog-index.json');
-assert(fs.existsSync(indexJsonPath), 'Índice leve public/data/catalog-index.json presente para LandingPage');
+assert(JSON.stringify(JSON.parse(fs.readFileSync(catalogJsonPath, 'utf8'))) === JSON.stringify(initialApps),
+  'Catálogo distribuído corresponde à fonte de dados');
 
 // Test 16: Bug fixes de produção (regressões)
 console.log('\n16. Verificação de Bug Fixes Críticos (1.3.0 → 1.3.1):');
@@ -267,7 +267,6 @@ assert(viteConfigContent2.includes('systemPackagePlugin'), 'Vite usa a API compa
 // Catalog loader lazy presente
 const catalogServiceContent = fs.readFileSync(path.join(process.cwd(), 'src/services/catalog.js'), 'utf-8');
 assert(catalogServiceContent.includes('loadFullCatalog'), 'Serviço de catálogo lazy (loadFullCatalog) presente');
-assert(catalogServiceContent.includes('requestIdleCallback'), 'Prefetch do catálogo usa requestIdleCallback');
 
 // App.jsx usa catálogo lazy e hooks customizados
 const appJsxContent2 = fs.readFileSync(path.join(process.cwd(), 'src/App.jsx'), 'utf-8');
@@ -277,7 +276,6 @@ assert(!appJsxContent2.includes("from './data/initialApps'") || appJsxContent2.m
 console.log('\n20. Verificação do ícone Grid Mint (v1.5.0):');
 const iconMipPath = path.join(process.cwd(), 'icon_mip.svg');
 assert(fs.existsSync(iconMipPath), 'SVG canônico icon_mip.svg presente na raiz');
-assert(fs.existsSync(path.join(process.cwd(), 'public/icons/mint-install-pro.svg')), 'SVG copiado para public/icons/mint-install-pro.svg');
 assert(fs.existsSync(path.join(process.cwd(), 'public/icons/software-manager.png')), 'PNG 256x256 em public/icons/software-manager.png');
 assert(fs.existsSync(path.join(process.cwd(), 'public/favicon.png')), 'Favicon PNG em public/favicon.png');
 
@@ -313,7 +311,7 @@ assert(headerBarContent3.includes("flatpakStatus === 'missing'"), 'HeaderBar ren
 assert(headerBarContent3.includes('AlertTriangle'), 'HeaderBar importa AlertTriangle (lucide-react)');
 
 const catalogServiceContent2 = fs.readFileSync(path.join(process.cwd(), 'src/services/catalog.js'), 'utf-8');
-assert(catalogServiceContent2.includes('export async function loadCatalogIndex'), 'catalog.js exporta loadCatalogIndex');
+assert(catalogServiceContent2.includes('export function getCachedIndex'), 'catalog.js expõe o cache usado por useCatalog');
 
 // Test 18: Pacote .deb regenera com sucesso
 console.log('\n18. Sanidade do .deb empacotado:');

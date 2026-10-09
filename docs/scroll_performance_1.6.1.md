@@ -86,41 +86,7 @@ python3 scripts/verify_deb.py
 
 Os testes nativos precisam de display, Python GI, GTK 3, WebKit2GTK 4.1 e build
 em `dist/`; são ignorados quando esses requisitos não estão disponíveis.
-## Resultado da execução final
 
-| Suíte | Aprovados |
-|---|---:|
-| Vitest — 29 arquivos | 1.511 |
-| Python, incluindo os dois testes WebKitGTK nativos | 50 |
-| Playwright — desenvolvimento e produção | 98 |
-| Conformidade do projeto | 130 |
-| **Total** | **1.789** |
-
-A execução terminou sem falhas e sem testes ignorados. Lint e build passaram;
-`npm audit --audit-level=moderate` reportou zero vulnerabilidades.
-`verify_deb.py` conferiu os 360 arquivos do bundle, os ícones, o launcher, o
-backend, os metadados e a sintaxe do pacote `mint-install-pro_1.6.1_all.deb`.
-
-As operações de pacotes nos testes foram interceptadas ou usaram executores
-simulados. A verificação do pacote extrai os arquivos sem instalá-lo. A instalação
-real feita na preparação da release está no [relatório de testes da 1.6.1](archive/test-report-1.6.1.md).
-
-
-SHA-256 do pacote conferido: `ad673639345b91ed6602e13d787440822fc9a4eb4c4f357954e3dc3ec710c42f`.
-
-## Ajuste visual posterior
-
-O ponto verde ao lado do nome dos cards instalados foi removido. Os 18 testes
-diretos dos componentes AppGrid e AppCard passaram; o build e a verificação
-do pacote foram repetidos. O checksum acima corresponde ao pacote final da release.
-
-## Atualização do ícone
-
-O SVG canônico recebeu o novo desenho de pacote branco com seta de instalação
-sobre fundo verde Mint. Favicons e PNG hicolor foram regenerados a partir dele.
-Os dois testes de identidade visual passaram em desenvolvimento e produção,
-as 130 verificações de conformidade passaram e o SVG foi carregado pelo
-GdkPixbuf nativo em 16, 24, 32, 48, 64, 96 e 256 px. O build e a verificação do
-pacote foram repetidos. Uma edição posterior do SVG foi preservada e os arquivos
-derivados foram regenerados; os dois testes de identidade visual passaram novamente.
-O checksum acima corresponde ao pacote final dessa edição.
+Os resultados da validação atual estão no [relatório de testes](../RELATORIO_TESTES.md).
+Os relatórios das versões publicadas acompanham as
+[releases](https://github.com/yuri-schmaltz/mint_install_pro/releases).

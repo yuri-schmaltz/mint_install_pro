@@ -12,7 +12,6 @@ import sys
 
 INITIAL = "src/data/initialApps.js"
 JSON_OUT = "public/data/catalog.json"
-JSON_INDEX = "public/data/catalog-index.json"  # versão leve só com counts e featured
 
 CATEGORIES_KIND = {
     "flatpak": "flatpak",
@@ -73,11 +72,6 @@ def main():
         f"export const initialApps = {json.dumps(apps, indent=2, ensure_ascii=False)};\n\n"
     )
 
-    # Reanexa categoriesList original (substitui o bloco antigo)
-    m2 = re.search(r"export const categoriesList = (\[[\s\S]*?\]);", src)
-    if m2:
-        new_init += f"export const categoriesList = {m2.group(1)};\n"
-
     with open(INITIAL, "w", encoding="utf-8") as f:
         f.write(new_init)
     # Re-exporta categoriesList do arquivo separado (code-split)
@@ -92,20 +86,6 @@ def main():
         json.dump(apps, f, ensure_ascii=False, separators=(",", ":"))
     size_mb = os.path.getsize(JSON_OUT) / (1024 * 1024)
     print(f"{JSON_OUT} gerado: {size_mb:.2f} MB (minificado, para fetch lazy)")
-
-    # Indice leve: contagens por categoria + featured 6 (top rated)
-    index = {
-        "total": len(apps),
-        "byCategory": {},
-        "byKind": {"apt": apt_count, "flatpak": fp_count},
-        "featured": sorted(apps, key=lambda a: a.get("rating", 0), reverse=True)[:6]
-    }
-    for cat in sorted({a.get("category", "all") for a in apps}):
-        index["byCategory"][cat] = sum(1 for a in apps if a.get("category") == cat)
-
-    with open(JSON_INDEX, "w", encoding="utf-8") as f:
-        json.dump(index, f, ensure_ascii=False, separators=(",", ":"))
-    print(f"{JSON_INDEX} gerado: {os.path.getsize(JSON_INDEX)} bytes (indice leve)")
 
 
 if __name__ == "__main__":

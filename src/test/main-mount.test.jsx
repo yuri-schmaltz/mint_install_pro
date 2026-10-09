@@ -1,19 +1,4 @@
-// main-mount-debugdock.test.jsx — regressão bidirecional do DebugDock.
-//
-// HISTÓRICO:
-//   - v1.3.2 hotfix 6: DebugDock implementado + montado em produção
-//   - v1.4.0:           DebugDock removido da tela principal (decisão UX)
-//   - v1.4.1:           DebugDock reativado após achado crítico #1 da auditoria
-//                       (estava implementado mas não montado — usuário sem
-//                       acesso ao snapshot de logs)
-//   - v1.5.1:           DebugDock removido novamente por pedido do usuário
-//                       (atrapalhava a UI em produção, screenshot anexo)
-//
-// DECISÃO ATUAL: DebugDock fica REMOVIDO de main.jsx por padrão. A
-// infraestrutura de diagnóstico (debugLog + emergency handlers +
-// ErrorBoundary.pushLastReactError) continua ativa e persiste em
-// localStorage, mas o painel visual está oculto. Para diagnosticar em
-// campo, basta adicionar manualmente <DebugDock /> no render() abaixo.
+// Verifica o bootstrap, ausência do antigo painel e handlers de diagnóstico.
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import fs from 'fs';
@@ -24,7 +9,7 @@ vi.mock('../components/ErrorBoundary', () => ({
   default: ({ children }) => children
 }));
 
-describe('main.jsx — DebugDock fora da tela principal (v1.5.1+)', () => {
+describe('main.jsx — bootstrap e diagnóstico', () => {
   beforeEach(() => {
     document.body.innerHTML = '<div id="root"></div>';
     vi.resetModules();

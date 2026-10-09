@@ -91,7 +91,7 @@ export default function BatchActionModal({
           stack: String(fatalErr.stack || '').slice(0, 800)
         });
         // console.error removido: debugLog('error', ...) já espelha no console
-        // em dev, evitando ruído duplicado. Em prod, persiste no DebugDock.
+        // em dev, evitando ruído duplicado. Em prod, persiste no localStorage.
         if (!isCancelled) {
           setLogs(prev => [...prev, `[ERRO FATAL] ${String(fatalErr.message || fatalErr)}`]);
           setIsFinished(true);

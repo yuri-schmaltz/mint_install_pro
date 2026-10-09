@@ -41,13 +41,6 @@ vi.mock('../services/catalog', () => ({
     countByCategory: new Map([['accessories', 2], ['internet', 1], ['development', 1]]),
     countByKind: new Map([['apt', 4]])
   })),
-  loadCatalogIndex: vi.fn(async () => ({
-    total: mockApps.length,
-    byCategory: { accessories: 2, internet: 1, development: 1 },
-    byKind: { apt: 4 },
-    featured: mockApps.slice(0, 3)
-  })),
-  prefetchCatalog: vi.fn(),
   getCachedIndex: vi.fn(() => ({
     apps: mockApps,
     byName: new Map(mockApps.map(a => [a.name.toLowerCase(), a])),

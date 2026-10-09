@@ -18,8 +18,7 @@ export default class ErrorBoundary extends React.Component {
 
   componentDidCatch(error, errorInfo) {
     console.error('[ErrorBoundary] Erro não-tratado:', error, errorInfo);
-    // Persiste pra DebugDock conseguir mostrar mesmo se usuário não abrir
-    // o painel — fica em localStorage e aparece na próxima sessão.
+    // Persiste o erro em localStorage para diagnóstico após reiniciar.
     try {
       pushLastReactError(error, errorInfo?.componentStack);
     } catch (_) {

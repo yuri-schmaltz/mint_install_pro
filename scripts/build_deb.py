@@ -90,27 +90,16 @@ Depends: python3, python3-gi, gir1.2-gtk-3.0, gir1.2-webkit2-4.1 | gir1.2-webkit
 Recommends: flatpak, policykit-1, libglib2.0-bin
 Maintainer: Yuri Schmaltz <yuri.schmaltz@gmail.com>
 Homepage: https://github.com/yuri-schmaltz/mint_install_pro
-Description: Gerenciador de Aplicativos Moderno para Linux Mint (MintInstall Clone)
- Clone interativo e de alto desempenho do Gerenciador de Aplicativos
- do Linux Mint (MintInstall), com fidelidade ao tema Mint-Y Dark,
- suporte nativo ao Flathub, instalacao/desinstalacao em lote
- e matriz 3x3 com contadores dinamicos de ate +999 aplicativos.
+Description: Gerenciador de aplicativos APT e Flatpak para Linux Mint
+ Interface inspirada no tema Mint-Y Dark, com categorias e pesquisa,
+ instalacao e remocao individuais ou em lote com uma autorizacao
+ administrativa por lote e protecao de componentes essenciais.
 """
 
 with open(f"{DEB_DIR}/DEBIAN/control", "w", encoding="utf-8") as f:
     f.write(control_content)
 
-# 6. Criar scripts de post-instalação e pós-remoção
-# v1.5.4: postinst MÍNIMO — apenas atualiza cache de ícones.
-# REMOVIDOS (causa da janela indesejada durante instalação):
-#   - xdg-mime default mint-install-pro.desktop ...
-#     Registrava mint-install-pro como handler de appstream://, apt://,
-#     e .deb files. Combinado com MimeType no .desktop, isso fazia o
-#     sistema abrir uma janela de browser externo (Brave/Chrome) mostrando
-#     o diretório do perfil WebKit2GTK durante a instalação.
-#   - update-desktop-database
-#     Reindexava os .desktop files e disparava notificações/handlers
-#     em browsers externos.
+# 6. Atualizar o cache de ícones sem abrir janelas ou alterar associações.
 postinst_content = """#!/bin/sh
 set -e
 # Apenas atualiza o cache de ícones (operação silenciosa, sem UI).

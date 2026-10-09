@@ -4,6 +4,7 @@ from pathlib import Path
 import re
 import shutil
 import subprocess
+import tempfile
 import xml.etree.ElementTree as ET
 
 
@@ -41,14 +42,16 @@ def main():
         preview.remove(child)
         preview.insert(index, sample)
 
-    public_svg = ROOT / "public/icons/mint-install-pro.svg"
-    public_svg.write_bytes(source_bytes)
-    for size, destination in [(16, "public/favicon-16.png"),
-                              (32, "public/favicon-32.png"),
-                              (48, "public/favicon.png"),
-                              (96, "public/icons/hicolor-96x96.png")]:
-        subprocess.run([renderer, "-w", str(size), "-h", str(size), "-o",
-                        str(ROOT / destination), str(public_svg)], check=True)
+    # Render from an immutable snapshot without keeping a redundant public SVG.
+    with tempfile.TemporaryDirectory(prefix="mip-icons-") as temp:
+        snapshot = Path(temp) / "icon.svg"
+        snapshot.write_bytes(source_bytes)
+        for size, destination in [(16, "public/favicon-16.png"),
+                                  (32, "public/favicon-32.png"),
+                                  (48, "public/favicon.png"),
+                                  (96, "public/icons/hicolor-96x96.png")]:
+            subprocess.run([renderer, "-w", str(size), "-h", str(size), "-o",
+                            str(ROOT / destination), str(snapshot)], check=True)
 
     ET.indent(preview)
     preview_path.write_text(ET.tostring(preview, encoding="unicode") + "\n", encoding="utf-8")
@@ -56,7 +59,7 @@ def main():
                     str(preview_path)], check=True)
     if source.read_bytes() != source_bytes:
         raise SystemExit("icon_mip.svg mudou durante a geração. Execute o comando novamente.")
-    print("SVG público, favicons, ícone hicolor e prévia sincronizados com icon_mip.svg.")
+    print("Favicons, ícone hicolor e prévia sincronizados com icon_mip.svg.")
 
 
 if __name__ == "__main__":

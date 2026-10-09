@@ -24,7 +24,6 @@ describe('useCatalog hook tests', () => {
 
     vi.spyOn(catalogService, 'getCachedIndex').mockReturnValue(null);
     vi.spyOn(catalogService, 'loadFullCatalog').mockResolvedValue(mockIndexed);
-    vi.spyOn(catalogService, 'prefetchCatalog').mockImplementation(() => {});
 
     globalThis.fetch = vi.fn().mockImplementation((url) => {
       if (url === '/api/installed') {
@@ -52,7 +51,6 @@ describe('useCatalog hook tests', () => {
 
   it('identifica flatpak ausente sem perder o estado APT', async () => {
     vi.spyOn(catalogService, 'getCachedIndex').mockReturnValue({ apps: [] });
-    vi.spyOn(catalogService, 'prefetchCatalog').mockImplementation(() => {});
 
     globalThis.fetch = vi.fn().mockImplementation((url) => {
       if (url === '/api/installed') {

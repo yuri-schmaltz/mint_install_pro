@@ -144,9 +144,7 @@ describe('auditoria estática: débitos conhecidos', () => {
         }
       }
     }
-    // Permitidos se forem em CHANGELOG/HANDOFF
-    const realOffenders = offenders.filter((o) => !o.startsWith('CHANGELOG') && !o.startsWith('HANDOFF'));
-    expect(realOffenders).toEqual([]);
+    expect(offenders).toEqual([]);
   });
 
   it('keys de localStorage são consistentes (mip_ prefix)', () => {

@@ -4,6 +4,7 @@ O Mint Install Pro é um projeto independente de Yuri Schmaltz para gerenciar
 aplicativos APT e Flatpak no Linux Mint. A interface é inspirada no tema Mint-Y
 Dark. A release estável é a [1.6.2](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.2),
 com o desenho atualizado do ícone e a correção de rolagem da 1.6.1.
+O código em desenvolvimento está na 1.6.3, com limpeza de materiais obsoletos.
 
 ## Funcionalidades
 

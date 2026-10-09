@@ -1,11 +1,5 @@
 // main.jsx — entry point. Renderiza <App /> dentro de <ErrorBoundary>.
 //
-// O DebugDock foi removido da tela principal em v1.5.1 após o usuário
-// reportar que atrapalhava a UI. A infraestrutura de diagnóstico
-// (debugLog + emergency handlers + ErrorBoundary.pushLastReactError)
-// continua ativa e persiste em localStorage — basta montar o <DebugDock />
-// manualmente em debug builds pra ter acesso ao snapshot.
-//
 // Handlers globais (window.onerror + unhandledrejection) capturam erros
 // que ErrorBoundary não pega (setTimeout, promise, async event handler).
 // Persistem em localStorage[mip_emergency_log] pra análise posterior.

@@ -12,7 +12,4 @@ StartupWMClass=mint-install-pro
 Categories=System;PackageManager;Settings;GTK;
 Keywords=apt;flatpak;flathub;install;uninstall;package;mint;manager;aplicativo;pacote;
 SingleMainWindow=true
-# v1.5.4: Sem MimeType para NÃO registrar como handler de URI schemes
-# (appstream://, apt://, etc). Esses schemes, combinados com o postinst
-# que chamava xdg-mime default, faziam o sistema abrir nosso profile
-# WebKit2GTK em uma sessão de browser externa durante a instalação.
+# Sem MimeType: o aplicativo não registra associações de arquivos ou URIs.

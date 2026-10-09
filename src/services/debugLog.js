@@ -1,5 +1,5 @@
 // debugLog.js — logger persistente com ring buffer no localStorage.
-// Resolve parte da infraestrutura de diagnóstico do handoff: captura logs
+// Captura logs de diagnóstico
 // de execução em campo mesmo após crash do React (que mata o console).
 //
 // Uso típico:

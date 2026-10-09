@@ -8,9 +8,7 @@
 import { indexCatalog } from './catalogIndex.js';
 
 let _indexed = null;       // { apps, byName, countByCategory, countByKind }
-let _lightIndex = null;    // { total, byCategory, byKind, featured } — usado pela LandingPage
 let _fullPromise = null;
-let _lightIndexPromise = null;
 
 /**
  * Carrega o catálogo completo + pré-computa índices. Idempotente.
@@ -39,57 +37,6 @@ export async function loadFullCatalog() {
 }
 
 /**
- * Carrega o índice LEVE (8 KB) usado pela LandingPage. Se falhar, calcula
- * a partir do catálogo completo (já pré-computado).
- */
-export async function loadCatalogIndex() {
-  if (_lightIndex) return _lightIndex;
-  if (_lightIndexPromise) return _lightIndexPromise;
-  _lightIndexPromise = fetch('/data/catalog-index.json')
-    .then((r) => (r.ok ? r.json() : null))
-    .catch(() => null)
-    .then(async (data) => {
-      if (data) {
-        _lightIndex = data;
-        return data;
-      }
-      // Fallback: deriva do catálogo completo
-      const full = await loadFullCatalog();
-      const apps = full.apps;
-      _lightIndex = {
-        total: apps.length,
-        byCategory: Object.fromEntries(full.countByCategory),
-        byKind: Object.fromEntries(full.countByKind),
-        featured: [...apps].sort((a, b) => (b.rating || 0) - (a.rating || 0)).slice(0, 6)
-      };
-      return _lightIndex;
-    });
-  return _lightIndexPromise;
-}
-
-/**
- * Pré-carregamento: chama no boot da app para o JSON estar pronto
- * quando o usuário sair da LandingPage. Não bloqueia a render inicial.
- */
-export function prefetchCatalog() {
-  if (typeof window === 'undefined') return;
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(() => loadFullCatalog().catch(() => {}), { timeout: 1500 });
-  } else {
-    setTimeout(() => loadFullCatalog().catch(() => {}), 100);
-  }
-}
-
-/**
- * Acesso SÍNCRONO ao catálogo em cache. Retorna o array puro (sem índices).
- * Útil para componentes que assumem que o catálogo já está em memória.
- * Retorna `null` se ainda não carregou.
- */
-export function getCachedCatalog() {
-  return _indexed ? _indexed.apps : null;
-}
-
-/**
  * Acesso SÍNCRONO ao índice completo (apps + byName + counts).
  */
 export function getCachedIndex() {
@@ -97,11 +44,9 @@ export function getCachedIndex() {
 }
 
 /**
- * Invalida o cache. Usado por "Limpar cache" e em testes.
+ * Invalida o cache para isolar os testes do serviço.
  */
 export function invalidateCatalog() {
   _indexed = null;
-  _lightIndex = null;
   _fullPromise = null;
-  _lightIndexPromise = null;
 }

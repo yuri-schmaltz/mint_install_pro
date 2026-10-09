@@ -270,12 +270,11 @@ describe('debugLog', () => {
       expect(entry.data.val).toBe(1);
     });
 
-    it('preserva XSS em msg (apenas armazena; o DebugDock renderiza via React que escapa)', () => {
+    it('preserva a mensagem como dado, sem executar conteúdo HTML', () => {
       debugLog('info', 'C', '<script>alert(1)</script>');
       const entry = getDebugSnapshot().entries[0];
       expect(entry.msg).toBe('<script>alert(1)</script>');
-      // Validação: a string é apenas persistida. Quem renderiza (DebugDock)
-      // usa {entry.msg} em JSX que escapa automaticamente. Não há innerHTML.
+      // A mensagem fica armazenada como string; não há execução nem innerHTML.
     });
 
     it('coage data que falha em JSON.stringify para string', () => {

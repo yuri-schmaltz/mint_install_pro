@@ -87,7 +87,6 @@ describe('App Integration & End-to-End User Scenarios', () => {
 
     vi.spyOn(catalogService, 'getCachedIndex').mockReturnValue(mockIndex);
     vi.spyOn(catalogService, 'loadFullCatalog').mockResolvedValue(mockIndex);
-    vi.spyOn(catalogService, 'prefetchCatalog').mockImplementation(() => {});
 
     globalThis.fetch = vi.fn().mockImplementation((url) => {
       if (url === '/api/installed') {

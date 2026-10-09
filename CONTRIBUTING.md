@@ -1,7 +1,7 @@
 # Guia de contribuição
 
-Este guia acompanha a versão 1.6.2. Consulte o [README](README.md) para instalação
-e o [HANDOFF](HANDOFF.md) para o estado técnico da entrega.
+Este guia acompanha a versão 1.6.3. Consulte o [README](README.md) para instalação
+e arquitetura, e o [relatório de testes](RELATORIO_TESTES.md) para a validação.
 
 ## Ambiente de desenvolvimento
 
@@ -51,12 +51,11 @@ python3 scripts/verify_deb.py
 ```
 
 A verificação extrai o `.deb` e compara arquivos e metadados, sem instalá-lo.
-O [relatório histórico da versão 1.6.1](docs/archive/test-report-1.6.1.md) registra 1.511 testes Vitest,
-50 Python, 98 Playwright e 130 verificações de conformidade aprovados. Esses
-números descrevem aquela execução; novas contribuições podem alterá-los.
-A [verificação da versão 1.6.1](docs/scroll_performance_1.6.1.md) cobre também
-a grade virtualizada e a rolagem no WebKitGTK nativo. A integração do ícone
-na 1.6.2 está documentada no [relatório atual](RELATORIO_TESTES.md).
+Os cenários e resultados da validação atual estão no
+[relatório de testes](RELATORIO_TESTES.md). Os relatórios de versões publicadas
+acompanham seus respectivos arquivos nas [releases](https://github.com/yuri-schmaltz/mint_install_pro/releases).
+A [verificação da rolagem](docs/scroll_performance_1.6.1.md) descreve a grade
+virtualizada e as medições no WebKitGTK.
 
 ## Convenções
 
@@ -71,9 +70,10 @@ na 1.6.2 está documentada no [relatório atual](RELATORIO_TESTES.md).
 - Use `icon_mip.svg` da raiz como fonte do ícone. O empacotamento e a interface
   devem continuar apontando para essa fonte. Após editar o desenho, execute
   `python3 scripts/sync_icons.py` (requer `rsvg-convert`, de `librsvg2-bin`)
-  para regenerar o SVG público, PNGs e prévia antes de compilar.
+  para regenerar os PNGs e a prévia antes de compilar.
 - Alterações no catálogo devem manter `src/data/initialApps.js` e `public/data/`
   sincronizados. Após alterar a fonte, execute `python3 scripts/migrate_catalog.py`.
+  As categorias têm uma única fonte em `src/data/categoriesList.js`.
 - Preserve a validação de origem, os limites de requisição e a política de
   proteção de pacotes documentados em [SECURITY.md](SECURITY.md).
 - Prefira commits com prefixos `feat:`, `fix:`, `docs:`, `refactor:`, `test:` ou

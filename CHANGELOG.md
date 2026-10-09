@@ -1,3 +1,17 @@
+# 1.6.3 — limpeza do repositório — 2026-10-09
+
+- Remove propostas antigas de ícones, galerias e documentos históricos redundantes.
+- Remove imagens sem uso no catálogo ou nos banners, o SVG público redundante
+  e arquivos de dados obsoletos; preserva o SVG canônico e os ícones do pacote.
+- Remove o antigo painel DebugDock e os testes exclusivos desse componente;
+  preserva os logs de diagnóstico, handlers globais e ErrorBoundary.
+- Remove os carregadores de índice leve, pré-carregamento e populares do Flathub
+  que não eram utilizados pela aplicação, ajustando seus testes e mocks.
+- Remove o script antigo de associações de arquivos, incompatível com o app atual.
+- Usa a fonte canônica das categorias também na geração do catálogo e elimina
+  imports Python e entradas duplicadas do gitignore.
+- Atualiza links, documentação e verificações de integridade para a estrutura atual.
+
 # 1.6.2 — integração do ícone atualizado — 2026-10-09
 
 - Integra o desenho manual atualizado de `icon_mip.svg`, com pacote e seta maiores.

@@ -7,7 +7,8 @@ necessária, válida para todo o lote. Flatpaks do usuário dispensam essa autor
 Componentes essenciais e de base do sistema aparecem como protegidos e têm a
 remoção bloqueada, inclusive quando seriam removidos como dependência.
 
-Versão **1.6.0** — [release e download do pacote .deb](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.0).
+Versão: **1.6.1**, com correção de rolagem e novo ícone.
+[Release estável: v1.6.1](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.1).
 Veja as mudanças em [CHANGELOG.md](CHANGELOG.md).
 
 ## Funcionalidades
@@ -26,6 +27,9 @@ Veja as mudanças em [CHANGELOG.md](CHANGELOG.md).
 - Cards instalados com fundo neutro e checkbox verde. Os rótulos Instalar e
   Desinstalar ficam à direita do nome; a seleção em lote mantém Marcar Todos
   no topo da grade e Executar Ações no rodapé.
+- Grade com renderização dos cards próximos à área visível, mantendo a altura
+  total da lista. Marcar Todos continua selecionando todos os resultados do
+  filtro atual que podem receber ações, inclusive os que estão fora da tela.
 - Abertura de apps instalados via Flatpak ou lançador gráfico pertencente ao
   pacote APT. Pacotes sem lançador gráfico retornam uma mensagem explicativa.
 - Exportação da lista de apps instalados presentes no catálogo. Importar um
@@ -75,10 +79,10 @@ npm run build:deb
 python3 scripts/verify_deb.py
 ```
 
-Isso gera `mint-install-pro_1.6.0_all.deb`. Para instalá-lo no sistema desejado:
+Isso gera `mint-install-pro_1.6.1_all.deb`. Para instalá-lo no sistema desejado:
 
 ```bash
-sudo apt install ./mint-install-pro_1.6.0_all.deb
+sudo apt install ./mint-install-pro_1.6.1_all.deb
 ```
 
 Abra pelo menu ou execute `mint-install-pro`. Para diagnosticar a interface no
@@ -88,6 +92,8 @@ O pacote registra o aplicativo no menu; não altera associações de arquivos ne
 remove launchers pessoais. Se uma cópia antiga em `~/.local/bin` estiver antes
 de `/usr/bin` no PATH, use `/usr/bin/mint-install-pro` e revise a cópia antiga.
 O menu, a janela GTK, o favicon e a tela Sobre usam o SVG canônico `icon_mip.svg`.
+O novo desenho usa um pacote branco com seta sobre fundo verde Mint;
+veja a [prévia em tamanhos de menu e barra de tarefas](docs/icon-preview.png).
 
 ## Verificações
 
@@ -119,6 +125,7 @@ bindings nativos ou build em `dist/`. Para executá-lo, gere o build e rode
 
 Veja também [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md),
 [ABOUT.md](ABOUT.md), [HANDOFF.md](HANDOFF.md), [CHANGELOG.md](CHANGELOG.md) e
-o [relatório de testes da versão 1.6.0](RELATORIO_TESTES.md).
+o [relatório de testes da versão 1.6.1](RELATORIO_TESTES.md) e a
+[verificação da correção de rolagem 1.6.1](docs/scroll_performance_1.6.1.md).
 
 Licença [MIT](LICENSE). Copyright © 2026 Yuri Schmaltz.

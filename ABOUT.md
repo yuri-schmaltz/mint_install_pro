@@ -2,7 +2,8 @@
 
 O Mint Install Pro é um projeto independente de Yuri Schmaltz para gerenciar
 aplicativos APT e Flatpak no Linux Mint. A interface é inspirada no tema Mint-Y
-Dark. A versão publicada é a [1.6.0](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.0).
+Dark. A release estável é a [1.6.1](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.1),
+com correção da rolagem e novo ícone.
 
 ## Funcionalidades
 
@@ -17,6 +18,9 @@ Dark. A versão publicada é a [1.6.0](https://github.com/yuri-schmaltz/mint_ins
   e rótulos de ação à direita do nome.
 - Preferências nas abas Pesquisa, Flatpaks e Operações & Lote.
 - Ícone canônico `icon_mip.svg` no menu, janela GTK, favicon e tela Sobre.
+  O desenho usa um pacote branco com seta de instalação e fundo verde Mint.
+- Grade que renderiza os cards próximos à área visível para reduzir o trabalho
+  de rolagem, preservando a seleção de itens fora da tela.
 
 A seção Mais bem avaliados usa notas do catálogo, incluindo valores fixos e
 estimados. Não recebe avaliações atualizadas periodicamente pela rede.
@@ -36,6 +40,7 @@ O [README](README.md) descreve o uso e os requisitos;
 [SECURITY.md](SECURITY.md) explica a proteção de pacotes e os limites da API;
 [CONTRIBUTING.md](CONTRIBUTING.md) orienta contribuições.
 Os resultados e limites dos testes estão em [RELATORIO_TESTES.md](RELATORIO_TESTES.md).
+Veja também a [verificação de rolagem da versão 1.6.1](docs/scroll_performance_1.6.1.md).
 
 Desenvolvido por **Yuri Schmaltz**. Copyright © 2026.
 Distribuído sob a licença [MIT](LICENSE).

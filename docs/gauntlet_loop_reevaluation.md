@@ -3,7 +3,7 @@
 > **Documento histórico — 02/09/2026.** As métricas, requisitos e conclusões
 > abaixo descrevem a versão avaliada naquela data e não o comportamento atual.
 > Consulte o [README](../README.md), o [changelog](../CHANGELOG.md) e o
-> [relatório de testes da versão 1.6.0](../RELATORIO_TESTES.md) para o estado vigente.
+> [relatório de testes da versão 1.6.1](../RELATORIO_TESTES.md) para o estado vigente.
 
 **Projeto:** `mint-install-pro` (Linux Mint App Manager)
 **Repositório Oficial:** [https://github.com/yuri-schmaltz/mint_install_pro](https://github.com/yuri-schmaltz/mint_install_pro)

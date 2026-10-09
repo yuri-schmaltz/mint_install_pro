@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import AppCard from './AppCard';
+import { useVirtualGrid } from '../hooks/useVirtualGrid';
 import { 
   PackageOpen, 
   CheckSquare, 
@@ -27,9 +28,6 @@ export default function AppGrid({
   onVisibleAppsChange
 }) {
   const [packageTypeFilter, setPackageTypeFilter] = useState('all'); // 'all' | 'apt' | 'flatpak'
-  const [displayLimit, setDisplayLimit] = useState(60);
-  const sentinelRef = React.useRef(null);
-  const containerRef = React.useRef(null);
 
   const isFlatpakTab = selectedCategory === 'flatpak';
   const isAllAppsTab = selectedCategory === 'all';
@@ -47,50 +45,19 @@ export default function AppGrid({
 
   React.useEffect(() => { onVisibleAppsChange?.(displayedApps); }, [displayedApps, onVisibleAppsChange]);
 
-  const visibleApps = displayedApps.slice(0, displayLimit);
-  const hasMore = displayedApps.length > displayLimit;
-
-  // Auto-carregamento com IntersectionObserver
-  React.useEffect(() => {
-    if (!hasMore) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setDisplayLimit(prev => Math.min(prev + 48, displayedApps.length));
-        }
-      },
-      { rootMargin: '350px' }
-    );
-
-    const currentSentinel = sentinelRef.current;
-    if (currentSentinel) {
-      observer.observe(currentSentinel);
-    }
-
-    return () => {
-      if (currentSentinel) {
-        observer.unobserve(currentSentinel);
-      }
-    };
-  }, [hasMore, displayedApps.length]);
-
-  // Fallback de auto-carregamento via scroll do container
-  const handleScroll = (e) => {
-    if (!hasMore) return;
-    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    if (scrollHeight - scrollTop - clientHeight < 350) {
-      setDisplayLimit(prev => Math.min(prev + 48, displayedApps.length));
-    }
-  };
+  const virtualGrid = useVirtualGrid(isLoading ? 0 : displayedApps.length,
+    JSON.stringify([selectedCategory, searchQuery, installedOnly, packageTypeFilter]));
+  const visibleApps = displayedApps.slice(virtualGrid.startIndex, virtualGrid.endIndex);
+  const selectedIds = React.useMemo(() => new Set(selectedAppIds), [selectedAppIds]);
 
   const aptCount = apps.filter(a => !a.flathub).length;
   const flatpakCount = apps.filter(a => a.flathub || a.packageType?.includes('Flatpak')).length;
 
   return (
     <div 
-      ref={containerRef}
-      onScroll={handleScroll}
-      className="flex-1 min-h-0 overflow-y-auto px-5 py-4 bg-[#26292d] relative"
+      ref={virtualGrid.containerRef}
+      onScroll={virtualGrid.onScroll}
+      className="app-grid-scroll flex-1 min-h-0 overflow-y-auto px-5 py-4 bg-[#26292d] relative"
     >
       
       {/* Flathub Special Banner when on Flatpak Tab */}
@@ -230,35 +197,24 @@ export default function AppGrid({
       )}
 
       {/* Grid of 3 Columns matching Linux Mint Software Manager */}
-      {!isLoading && visibleApps.length > 0 ? (
+      {!isLoading && displayedApps.length > 0 ? (
         <>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5">
+          <div
+            ref={virtualGrid.gridRef}
+            onFocusCapture={virtualGrid.onFocus}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2.5"
+            style={{ paddingTop: virtualGrid.paddingTop, paddingBottom: virtualGrid.paddingBottom }}
+          >
             {visibleApps.map((app) => (
               <AppCard 
                 key={app.id} 
                 app={app} 
                 onClick={onSelectApp}
-                isSelected={selectedAppIds.includes(app.id)}
+                isSelected={selectedIds.has(app.id)}
                 onToggleSelect={onToggleSelectApp}
               />
             ))}
           </div>
-
-          {/* Auto-loading Sentinel / Load More */}
-          {hasMore && (
-            <div ref={sentinelRef} className="pt-6 pb-24 flex flex-col items-center justify-center space-y-2 text-[#9ca3af]">
-              <div className="flex items-center space-x-2 text-xs bg-[#1f2226] px-4 py-2 rounded-full border border-[#35393f] shadow-sm">
-                <Loader2 className="w-3.5 h-3.5 animate-spin text-[#87cf3e]" />
-                <span>Carregando mais aplicativos... ({displayedApps.length - visibleApps.length} restantes)</span>
-              </div>
-              <button
-                onClick={() => setDisplayLimit(prev => Math.min(prev + 48, displayedApps.length))}
-                className="text-[11px] text-[#787f8c] hover:text-[#e0e0e0] underline transition-colors"
-              >
-                Clique para carregar mais imediatamente
-              </button>
-            </div>
-          )}
         </>
       ) : (
         /* Empty State */
@@ -301,5 +257,6 @@ AppGrid.propTypes = {
   isSearchingFlathub: PropTypes.bool,
   flathubLiveQuery: PropTypes.string,
   flathubQueryCount: PropTypes.number,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
+  onVisibleAppsChange: PropTypes.func
 };

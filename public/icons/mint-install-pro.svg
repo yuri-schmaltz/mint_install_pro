@@ -1,39 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="256" height="256" viewBox="0 0 256 256">
   <defs>
-    <linearGradient id="gridHi" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#a3e85f"/>
-      <stop offset="100%" stop-color="#5fa820"/>
+    <linearGradient id="linear-gradient-1" x1="8" y1="8" x2="8" y2="248" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a1e758"/>
+      <stop offset="1" stop-color="#62b52d"/>
     </linearGradient>
   </defs>
-
-  <!-- Background -->
-  <rect width="256" height="256" rx="48" ry="48" fill="#202326"/>
-  <rect x="6" y="6" width="244" height="244" rx="42" ry="42" fill="none" stroke="#2b2e33" stroke-width="2"/>
-
-  <!-- Matriz 3x3 com 1 quadrado destacado (centro) -->
-  <g>
-    <!-- Linha 1 -->
-    <rect x="44" y="44" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
-    <rect x="102" y="44" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
-    <rect x="160" y="44" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
-
-    <!-- Linha 2 -->
-    <rect x="44" y="102" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
-    <!-- Centro destacado -->
-    <rect x="102" y="102" width="52" height="52" rx="8" fill="url(#gridHi)" stroke="#3d7c12" stroke-width="2.5"/>
-    <!-- Folha centralizada vertical+horizontalmente dentro do quadrado verde.
-         Quadrado: x=102..154, y=102..154 → centro (128, 128).
-         Folha ocupa y de 116 a 140 (centro em y=128) com altura 24px. -->
-    <path d="M128 116 Q142 128 128 140 Q114 128 128 116 Z" fill="#202326" opacity="0.55"/>
-    <line x1="128" y1="116" x2="128" y2="140" stroke="#202326" stroke-width="1.5"/>
-    <rect x="160" y="102" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
-
-    <!-- Linha 3 -->
-    <rect x="44" y="160" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
-    <rect x="102" y="160" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
-    <rect x="160" y="160" width="52" height="52" rx="8" fill="#2b2e33" stroke="#3c4149" stroke-width="2"/>
+  <title>icon_mip.svg</title>
+  <g id="Layer_1" data-name="Layer 1">
+    <path d="M60 8 L196 8 C224.719 8 248 31.281 248 60 L248 196 C248 224.719 224.719 248 196 248 L60 248 C31.281 248 8 224.719 8 196 L8 60 C8 31.281 31.281 8 60 8 Z" fill="url(#linear-gradient-1)"/>
+    <path d="M56 93.973 L84 93.832 L172 93.832 L200 93.432 L200 195.303 C200 201.101 196 204 188 204 L68 204 C60 204 56 201.101 56 195.303 Z" fill="#f7ffed"/>
+    <path d="M56 88 L200 88 M128 83.216 L128 88" fill="none" stroke="#27612a" stroke-width="12" stroke-linejoin="round"/>
+    <path d="M128 114 L128 170 M104 146 L128 170 L152 146" fill="none" stroke="#245c2b" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
-
-  <!-- Pequeno indicador de "pulse" no quadrado destacado -->
-  <circle cx="148" cy="108" r="4" fill="#a3e85f"/>
 </svg>

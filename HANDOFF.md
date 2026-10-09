@@ -1,14 +1,18 @@
-# Handoff de desenvolvimento — Mint Install Pro 1.6.0
+# Handoff de desenvolvimento — Mint Install Pro 1.6.1
 
 Estado documentado em **09/10/2026**.
+
+O código, o pacote e a release estável estão na versão **1.6.1**, com correção
+de rolagem e novo ícone. A validação de desempenho está em
+[docs/scroll_performance_1.6.1.md](docs/scroll_performance_1.6.1.md).
 
 ## Entrega publicada
 
 - Repositório: [yuri-schmaltz/mint_install_pro](https://github.com/yuri-schmaltz/mint_install_pro), branch `master`.
-- Release estável: [v1.6.0](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.0).
-- Tag de release no commit `ab5d508c93b6e1ce812fd89d5e905fb4b686ba3e`.
-- Assets publicados: `mint-install-pro_1.6.0_all.deb`, `RELATORIO_TESTES.md` e `SHA256SUMS`.
-- [CI da entrega](https://github.com/yuri-schmaltz/mint_install_pro/actions/runs/37905768730): testes/build nas séries Node 22 e 24, auditoria e empacotamento aprovados.
+- Release estável: [v1.6.1](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.1).
+- Tag de release: `v1.6.1`, criada a partir do código validado em `master`.
+- Assets publicados: `mint-install-pro_1.6.1_all.deb`, `RELATORIO_TESTES.md` e `SHA256SUMS`.
+- [CI](https://github.com/yuri-schmaltz/mint_install_pro/actions/workflows/ci.yml): testes/build nas séries Node 22 e 24, auditoria e empacotamento.
 
 Alterações de documentação posteriores à tag podem estar em `master`.
 O histórico anterior foi preservado em
@@ -22,6 +26,8 @@ A interface nativa usa Python GI, GTK 3 e WebKit2GTK 4.1 com fallback para 4.0.
 
 - `src/components/`: interface, cards, detalhes, preferências e execução do lote.
 - `src/hooks/`: catálogo, busca, inventário instalado e seleção de ações.
+- `src/hooks/useVirtualGrid.js`: janela de renderização da grade, com buffer de
+  linhas, altura total preservada, atualizações por frame e observação de tamanho.
 - `src/services/`: acesso ao catálogo, Flathub e API local.
 - `scripts/package_backend.py`: servidor HTTP e executor de operações reais.
 - `scripts/vitePackageApi.js`: ponte usada em desenvolvimento e preview.
@@ -69,10 +75,10 @@ npm run build:deb
 python3 scripts/verify_deb.py
 ```
 
-A execução local da entrega aprovou 1.506 testes Vitest, 49 Python, 84 Playwright
-e 130 verificações de conformidade, totalizando 1.769. O teste WebKitGTK nativo
-passou nessa execução. Em ambientes sem display, bindings ou `dist/`, ele pode
-ser ignorado; gere o build antes dos testes Python para incluí-lo.
+A execução local da release 1.6.1 aprovou 1.511 testes Vitest, 50 Python, 98 Playwright
+e 130 verificações de conformidade, totalizando 1.789. Os dois testes WebKitGTK
+nativos passaram nessa execução. Em ambientes sem display, bindings ou `dist/`, eles podem
+ser ignorados; gere o build antes dos testes Python para incluí-lo.
 Os testes de operações não alteram os pacotes instalados da máquina.
 Veja os cenários e limites em [RELATORIO_TESTES.md](RELATORIO_TESTES.md).
 

@@ -1,0 +1,47 @@
+{
+  "date": "2026-10-09",
+  "engine": "WebKitGTK 2.52.6",
+  "viewport": {
+    "width": 1274,
+    "height": 842
+  },
+  "frames": 120,
+  "installed_step_px": 80,
+  "full_catalog_step_px": 700,
+  "inventory": "controlled API response; no package operations",
+  "baseline_version": "1.6.0",
+  "corrected_version": "1.6.1",
+  "installed_180_before": {
+    "maxCards": 180,
+    "initialHeight": 1927,
+    "finalHeight": 5110,
+    "finalTop": 4353,
+    "clientHeight": 757,
+    "windowHeight": 842,
+    "gridColumns": "400.65625px 400.671875px 400.671875px",
+    "frameP95": 142,
+    "framesOver50ms": 54
+  },
+  "installed_180_after": {
+    "maxCards": 84,
+    "initialHeight": 5110,
+    "finalHeight": 5110,
+    "finalTop": 4353,
+    "clientHeight": 757,
+    "windowHeight": 842,
+    "gridColumns": "400.65625px 400.671875px 400.671875px",
+    "frameP95": 114,
+    "framesOver50ms": 54
+  },
+  "full_catalog_1800_after": {
+    "maxCards": 84,
+    "initialHeight": 50470,
+    "finalHeight": 50470,
+    "finalTop": 49713,
+    "clientHeight": 757,
+    "windowHeight": 842,
+    "gridColumns": "400.65625px 400.671875px 400.671875px",
+    "frameP95": 121.99999999999955,
+    "framesOver50ms": 68
+  }
+}

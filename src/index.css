@@ -59,6 +59,13 @@
 }
 
 /* Card subtle border and elevation */
+.app-grid-scroll {
+  /* Windowed rows already preserve their positions; browser anchoring would
+     compensate for the recycled cards a second time and move the viewport. */
+  overflow-anchor: none;
+  contain: layout paint;
+}
+
 .gtk-card {
   background-color: #35393f;
   border: 1px solid #282b30;

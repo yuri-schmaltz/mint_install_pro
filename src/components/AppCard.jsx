@@ -98,8 +98,11 @@ function AppCard({
             src={app.icon}
             alt={app.name}
             onError={() => setImgError(true)}
-            className="w-10 h-10 object-contain drop-shadow-sm transition-transform duration-150 group-hover:scale-105"
+            className="w-10 h-10 object-contain"
             loading="lazy"
+            decoding="async"
+            width={40}
+            height={40}
           />
         ) : (
           <div className="w-10 h-10 flex items-center justify-center text-lg bg-[#2a2d32] text-[#87cf3e] font-bold rounded">
@@ -115,9 +118,6 @@ function AppCard({
             <h3 className="text-[13px] font-semibold text-[#f0f0f0] truncate min-w-0 leading-tight group-hover:text-white">
               {app.name}
             </h3>
-            {isInstalled && !removalBlocked && !isStagedForUninstall && (
-              <span className="flex-shrink-0 text-[10px] font-medium text-[#87cf3e]/80">•</span>
-            )}
           </div>
           {removalBlocked ? (
             <span title={app.removalProtection} className="flex-shrink-0 text-[10px] font-semibold text-amber-300 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-700/40">

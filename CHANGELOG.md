@@ -1,3 +1,19 @@
+# 1.6.1 — correção de rolagem — 2026-10-09
+
+- Remove o ponto verde ao lado do nome dos cards instalados, mantendo o checkbox.
+- Substitui o ícone escuro por um pacote branco com seta de instalação sobre
+  fundo verde Mint, com favicons e ícone hicolor atualizados para tamanhos pequenos.
+- Virtualiza a grade de aplicativos: mantém apenas os cards próximos à área visível,
+  preservando a altura total da lista e evitando o acúmulo durante a rolagem.
+- Agrupa atualizações de rolagem por frame e mantém filtros, seleção em lote,
+  proteção de pacotes e navegação por teclado ao reciclar os cards.
+- Limita a medição inicial à altura da janela para lidar com o layout provisório
+  do WebKitGTK, sem renderizar todo o catálogo durante a abertura.
+- Remove o filtro de sombra e a animação de escala dos ícones dos cards e usa
+  decodificação assíncrona de imagens.
+- Acrescenta testes de rolagem com 1.800 aplicativos, layouts de 1/2/3 colunas,
+  ciclo de vida da grade e janela WebKitGTK nativa.
+
 # 1.6.0 — operações em lote e proteção do sistema — 2026-10-09
 
 - Solicita uma única autorização administrativa por lote APT/Flatpak de sistema.

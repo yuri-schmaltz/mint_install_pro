@@ -21,8 +21,9 @@ o launcher GTK usa o mesmo servidor para a API e os arquivos da interface.
   operações de instalação e remoção.
 - Uma transação por instância do servidor, protegida por lock. Operações externas
   ou outras instâncias continuam sujeitas aos locks próprios do APT/Flatpak.
-- APT individual usa `pkexec apt-get`. Lotes usam uma única chamada a `pkexec`
-  para um auxiliar Python em modo isolado, com o plano completo de APT e remoções
+- Instalação APT individual usa `pkexec apt-get`. Remoção APT individual usa
+  o mesmo auxiliar de um lote com um único item. Lotes usam uma única chamada a
+  `pkexec` para um auxiliar Python em modo isolado, com o plano completo de APT e remoções
   Flatpak do sistema. O auxiliar revalida o plano antes de executar os comandos
   e encerra ao terminar o lote; não armazena senha nem concede privilégios a
   operações posteriores. Não há alteração das regras de autorização do sistema.
@@ -32,6 +33,10 @@ o launcher GTK usa o mesmo servidor para a API e os arquivos da interface.
   novas solicitações. Resultados por pacote chegam à interface via NDJSON.
   Falhas individuais não impedem as demais operações; remoções nos dois escopos
   só são consideradas concluídas quando ambos têm sucesso.
+- Se o auxiliar encerrar sem resultados para todos os itens administrativos,
+  mesmo com código de saída zero, o lote preserva os sucessos já confirmados e
+  registra falha para os itens restantes. As etapas de usuário restantes não
+  são executadas e a autorização não é solicitada novamente.
 - Flatpak instala no escopo do usuário. Remoções consultam e removem os escopos
   de usuário e sistema em que o app estiver instalado.
 - A lista de instalados vem do `dpkg-query` e de `flatpak list`; flags do catálogo

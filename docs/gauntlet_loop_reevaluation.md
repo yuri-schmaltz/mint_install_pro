@@ -1,10 +1,15 @@
 # Relatório Executivo: Gauntlet Loop de Reavaliação Integral
 
-**Projeto:** `mint-install-pro` (Linux Mint App Manager)  
-**Repositório Oficial:** [https://github.com/yuri-schmaltz/mint-install-pro](https://github.com/yuri-schmaltz/mint-install-pro)  
-**Ambiente de Referência:** Linux Mint 22.3 (Zena) / Base Ubuntu 24.04 LTS (Noble)  
-**Data da Reavaliação:** 02 de Setembro de 2026  
-**Status dos Testes:** 🟢 **69/69 Testes Aprovados (100%)**  
+> **Documento histórico — 02/09/2026.** As métricas, requisitos e conclusões
+> abaixo descrevem a versão avaliada naquela data e não o comportamento atual.
+> Consulte o [README](../README.md), o [changelog](../CHANGELOG.md) e o
+> [relatório de testes da versão 1.6.0](../RELATORIO_TESTES.md) para o estado vigente.
+
+**Projeto:** `mint-install-pro` (Linux Mint App Manager)
+**Repositório Oficial:** [https://github.com/yuri-schmaltz/mint_install_pro](https://github.com/yuri-schmaltz/mint_install_pro)
+**Ambiente de Referência:** Linux Mint 22.3 (Zena) / Base Ubuntu 24.04 LTS (Noble)
+**Data da Reavaliação:** 02 de Setembro de 2026
+**Status dos Testes:** 🟢 **69/69 Testes Aprovados (100%)**
 
 ---
 
@@ -73,7 +78,7 @@ Na Análise SWOT e no Plano de Ação GUT, foram delimitadas 4 fases prioritári
 2. **Cromatografia Dinâmica de Estado:** A resposta cromática que converte o fundo do card para vermelho/laranja escuro ao desmarcar o checkbox de um app instalado fornece feedback cognitivo de segurança antes de qualquer execução destrutiva.
 3. **Contador em Cápsula com Overflow `+999`:** Solução geométrica elegante para contadores de até 4 dígitos sem estourar o layout dos cards.
 4. **Distribuição Proporcional 100% da Barra de Abas:** Ocupação completa da largura horizontal eliminando barras de rolagem desnecessárias.
-5. **Release Oficial em `.deb` e Repositório Público no GitHub:** Disponibilização imediata para a comunidade em [yuri-schmaltz/mint-install-pro](https://github.com/yuri-schmaltz/mint-install-pro).
+5. **Release Oficial em `.deb` e Repositório Público no GitHub:** Disponibilização imediata para a comunidade em [yuri-schmaltz/mint-install-pro](https://github.com/yuri-schmaltz/mint_install_pro).
 6. **Documentação de Nível Enterprise:** Pacote completo contendo `README.md`, `ABOUT.md`, `LICENSE` (MIT), `CONTRIBUTING.md`, `SECURITY.md`, `CHANGELOG.md` e auditoria de aceite.
 
 ---

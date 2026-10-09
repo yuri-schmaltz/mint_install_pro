@@ -13,6 +13,7 @@ Veja as mudanças em [CHANGELOG.md](CHANGELOG.md).
 ## Funcionalidades
 
 - Catálogo local de 1.800 entradas: 1.600 APT e 200 Flatpak, com categorias e busca.
+- `Ctrl+F` (ou `Cmd+F`) foca a pesquisa e seleciona o texto atual.
 - Consulta dos pacotes realmente instalados via `dpkg-query` e `flatpak list`,
   atualizada ao iniciar, ao voltar à janela, a cada 30 segundos e após operações.
 - Instalação e remoção individuais ou em lote, com confirmação configurável e
@@ -20,7 +21,11 @@ Veja as mudanças em [CHANGELOG.md](CHANGELOG.md).
 - Busca online no Flathub integrada à lista. A opção de incluir resultados online
   não verificados controla os novos resultados recebidos da API; o catálogo
   local não contém comprovação de verificação dos seus itens.
-- Preferências de campos de busca, categoria e prioridade APT/Flatpak.
+- Preferências organizadas em três abas: Pesquisa, Flatpaks e Operações & Lote,
+  incluindo campos de busca, categoria e prioridade APT/Flatpak.
+- Cards instalados com fundo neutro e checkbox verde. Os rótulos Instalar e
+  Desinstalar ficam à direita do nome; a seleção em lote mantém Marcar Todos
+  no topo da grade e Executar Ações no rodapé.
 - Abertura de apps instalados via Flatpak ou lançador gráfico pertencente ao
   pacote APT. Pacotes sem lançador gráfico retornam uma mensagem explicativa.
 - Exportação da lista de apps instalados presentes no catálogo. Importar um
@@ -30,9 +35,21 @@ Instalações Flatpak usam o escopo do usuário e exigem o remoto `flathub` ness
 escopo. Remoções incluem as instalações do usuário e do sistema. APT e operações
 Flatpak de sistema podem exigir autenticação pelo sistema operacional.
 
-O registro da operação é mostrado quando o comando termina. Não há streaming de
-progresso do APT/Flatpak. Em caso de indisponibilidade da API, o app informa a
-falha e bloqueia novas operações até conseguir consultar o estado do sistema.
+Nos lotes, os estados e resultados de cada aplicativo chegam durante a execução.
+O registro de saída de cada comando é mostrado quando ele termina; a saída do
+APT/Flatpak não é transmitida linha a linha. Se a API estiver indisponível, o
+app informa a falha e bloqueia novas operações até conseguir consultar o estado
+do sistema.
+
+## Mais bem avaliados
+
+A seção ordena as notas do catálogo carregado e mostra até 18 aplicativos,
+em páginas de seis. Não existe atualização periódica dessas notas pela rede.
+O catálogo reúne notas fixas, dados do cache local do MintInstall e estimativas
+usadas quando faltam avaliações; os valores exibidos não representam sempre
+médias de avaliações reais. Eles podem mudar quando o catálogo for regenerado
+e distribuído em uma nova versão. A atualização do inventário a cada 30 segundos
+consulta o estado instalado, sem atualizar as notas.
 
 ## Desenvolvimento
 
@@ -100,7 +117,8 @@ bindings nativos ou build em `dist/`. Para executá-lo, gere o build e rode
 - `scripts/build_deb.py`: empacotamento a partir da versão de `package.json`.
 - `public/data/`: catálogo gerado a partir de `src/data/initialApps.js`.
 
-Veja também [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md) e
-[CHANGELOG.md](CHANGELOG.md).
+Veja também [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md),
+[ABOUT.md](ABOUT.md), [HANDOFF.md](HANDOFF.md), [CHANGELOG.md](CHANGELOG.md) e
+o [relatório de testes da versão 1.6.0](RELATORIO_TESTES.md).
 
 Licença [MIT](LICENSE). Copyright © 2026 Yuri Schmaltz.

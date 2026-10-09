@@ -103,7 +103,7 @@ backend, os metadados e a sintaxe do pacote `mint-install-pro_1.6.1_all.deb`.
 
 As operações de pacotes nos testes foram interceptadas ou usaram executores
 simulados. A verificação do pacote extrai os arquivos sem instalá-lo. A instalação
-real feita na preparação da release está no [relatório de testes](../RELATORIO_TESTES.md).
+real feita na preparação da release está no [relatório de testes da 1.6.1](archive/test-report-1.6.1.md).
 
 
 SHA-256 do pacote conferido: `ad673639345b91ed6602e13d787440822fc9a4eb4c4f357954e3dc3ec710c42f`.

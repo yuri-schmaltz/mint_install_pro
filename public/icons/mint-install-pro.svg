@@ -9,8 +9,8 @@
   <title>icon_mip.svg</title>
   <g id="Layer_1" data-name="Layer 1">
     <path d="M60 8 L196 8 C224.719 8 248 31.281 248 60 L248 196 C248 224.719 224.719 248 196 248 L60 248 C31.281 248 8 224.719 8 196 L8 60 C8 31.281 31.281 8 60 8 Z" fill="url(#linear-gradient-1)"/>
-    <path d="M56 93.973 L84 93.832 L172 93.832 L200 93.432 L200 195.303 C200 201.101 196 204 188 204 L68 204 C60 204 56 201.101 56 195.303 Z" fill="#f7ffed"/>
-    <path d="M56 88 L200 88 M128 83.216 L128 88" fill="none" stroke="#27612a" stroke-width="12" stroke-linejoin="round"/>
-    <path d="M128 114 L128 170 M104 146 L128 170 L152 146" fill="none" stroke="#245c2b" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M44.403 67.185 L76.913 67.017 L179.087 67.017 L211.597 66.542 L211.597 187.659 C211.597 194.553 206.953 198 197.664 198 L58.336 198 C49.047 198 44.403 194.553 44.403 187.659 Z" fill="#f7ffed"/>
+    <path d="M44.403 63.555 L211.597 63.555 M128 58 L128 63.555" fill="none" stroke="#27612a" stroke-width="12" stroke-linejoin="round"/>
+    <path d="M128 93.503 L128 158.523 M100.134 130.658 L128 158.523 L155.866 130.658" fill="none" stroke="#245c2b" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
   </g>
 </svg>

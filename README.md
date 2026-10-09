@@ -7,8 +7,8 @@ necessária, válida para todo o lote. Flatpaks do usuário dispensam essa autor
 Componentes essenciais e de base do sistema aparecem como protegidos e têm a
 remoção bloqueada, inclusive quando seriam removidos como dependência.
 
-Versão: **1.6.1**, com correção de rolagem e novo ícone.
-[Release estável: v1.6.1](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.1).
+Versão: **1.6.2**, com o desenho atualizado do ícone.
+[Release estável: v1.6.2](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.2).
 Veja as mudanças em [CHANGELOG.md](CHANGELOG.md).
 
 ## Funcionalidades
@@ -79,10 +79,10 @@ npm run build:deb
 python3 scripts/verify_deb.py
 ```
 
-Isso gera `mint-install-pro_1.6.1_all.deb`. Para instalá-lo no sistema desejado:
+Isso gera `mint-install-pro_1.6.2_all.deb`. Para instalá-lo no sistema desejado:
 
 ```bash
-sudo apt install ./mint-install-pro_1.6.1_all.deb
+sudo apt install ./mint-install-pro_1.6.2_all.deb
 ```
 
 Abra pelo menu ou execute `mint-install-pro`. Para diagnosticar a interface no
@@ -94,6 +94,9 @@ de `/usr/bin` no PATH, use `/usr/bin/mint-install-pro` e revise a cópia antiga.
 O menu, a janela GTK, o favicon e a tela Sobre usam o SVG canônico `icon_mip.svg`.
 O novo desenho usa um pacote branco com seta sobre fundo verde Mint;
 veja a [prévia em tamanhos de menu e barra de tarefas](docs/icon-preview.png).
+Depois de editar o SVG, execute `python3 scripts/sync_icons.py` antes do build
+para atualizar o SVG público, PNGs e prévia. O comando requer `rsvg-convert`,
+fornecido por `librsvg2-bin`.
 
 ## Verificações
 
@@ -125,7 +128,7 @@ bindings nativos ou build em `dist/`. Para executá-lo, gere o build e rode
 
 Veja também [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md),
 [ABOUT.md](ABOUT.md), [HANDOFF.md](HANDOFF.md), [CHANGELOG.md](CHANGELOG.md) e
-o [relatório de testes da versão 1.6.1](RELATORIO_TESTES.md) e a
+o [relatório de testes da versão 1.6.2](RELATORIO_TESTES.md) e a
 [verificação da correção de rolagem 1.6.1](docs/scroll_performance_1.6.1.md).
 
 Licença [MIT](LICENSE). Copyright © 2026 Yuri Schmaltz.

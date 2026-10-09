@@ -1,17 +1,17 @@
-# Handoff de desenvolvimento — Mint Install Pro 1.6.1
+# Handoff de desenvolvimento — Mint Install Pro 1.6.2
 
 Estado documentado em **09/10/2026**.
 
-O código, o pacote e a release estável estão na versão **1.6.1**, com correção
-de rolagem e novo ícone. A validação de desempenho está em
+O código, o pacote e a release estável estão na versão **1.6.2**, com o desenho
+manual atualizado do ícone e a correção de rolagem da 1.6.1. A validação de desempenho está em
 [docs/scroll_performance_1.6.1.md](docs/scroll_performance_1.6.1.md).
 
 ## Entrega publicada
 
 - Repositório: [yuri-schmaltz/mint_install_pro](https://github.com/yuri-schmaltz/mint_install_pro), branch `master`.
-- Release estável: [v1.6.1](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.1).
-- Tag de release: `v1.6.1`, criada a partir do código validado em `master`.
-- Assets publicados: `mint-install-pro_1.6.1_all.deb`, `RELATORIO_TESTES.md` e `SHA256SUMS`.
+- Release estável: [v1.6.2](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.2).
+- Tag de release: `v1.6.2`, criada a partir do código validado em `master`.
+- Assets publicados: `mint-install-pro_1.6.2_all.deb`, `RELATORIO_TESTES.md` e `SHA256SUMS`.
 - [CI](https://github.com/yuri-schmaltz/mint_install_pro/actions/workflows/ci.yml): testes/build nas séries Node 22 e 24, auditoria e empacotamento.
 
 Alterações de documentação posteriores à tag podem estar em `master`.
@@ -34,6 +34,8 @@ A interface nativa usa Python GI, GTK 3 e WebKit2GTK 4.1 com fallback para 4.0.
 - `scripts/launcher.py`: servidor e janela GTK do pacote instalado.
 - `scripts/build_deb.py` e `scripts/verify_deb.py`: geração e inspeção do `.deb`.
 - `icon_mip.svg`: fonte canônica usada pelo desktop, GTK, favicon e tela Sobre.
+- `scripts/sync_icons.py`: regenera SVG público, favicons, PNG hicolor e prévia
+  a partir da fonte canônica; requer `rsvg-convert`.
 - `src/data/initialApps.js`: fonte do catálogo; `scripts/migrate_catalog.py`
   sincroniza os arquivos distribuídos em `public/data/`.
 
@@ -80,7 +82,9 @@ e 130 verificações de conformidade, totalizando 1.789. Os dois testes WebKitGT
 nativos passaram nessa execução. Em ambientes sem display, bindings ou `dist/`, eles podem
 ser ignorados; gere o build antes dos testes Python para incluí-lo.
 Os testes de operações não alteram os pacotes instalados da máquina.
-Veja os cenários e limites em [RELATORIO_TESTES.md](RELATORIO_TESTES.md).
+Veja os cenários e limites no [relatório histórico da 1.6.1](docs/archive/test-report-1.6.1.md).
+A validação específica da integração do ícone na 1.6.2 está em
+[RELATORIO_TESTES.md](RELATORIO_TESTES.md).
 
 ## Limites relevantes
 

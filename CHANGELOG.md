@@ -1,3 +1,10 @@
+# 1.6.2 — integração do ícone atualizado — 2026-10-09
+
+- Integra o desenho manual atualizado de `icon_mip.svg`, com pacote e seta maiores.
+- Sincroniza SVG público, favicons, PNG hicolor e prévia a partir da fonte canônica.
+- Acrescenta `scripts/sync_icons.py` para regenerar esses arquivos após novas edições.
+- Atualiza versão, documentação e pacote Debian sem substituir a release 1.6.1.
+
 # 1.6.1 — correção de rolagem — 2026-10-09
 
 - Remove o ponto verde ao lado do nome dos cards instalados, mantendo o checkbox.

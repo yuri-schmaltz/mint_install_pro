@@ -1,6 +1,6 @@
 # Guia de contribuição
 
-Este guia acompanha a versão 1.6.1. Consulte o [README](README.md) para instalação
+Este guia acompanha a versão 1.6.2. Consulte o [README](README.md) para instalação
 e o [HANDOFF](HANDOFF.md) para o estado técnico da entrega.
 
 ## Ambiente de desenvolvimento
@@ -51,11 +51,12 @@ python3 scripts/verify_deb.py
 ```
 
 A verificação extrai o `.deb` e compara arquivos e metadados, sem instalá-lo.
-O [relatório da versão 1.6.1](RELATORIO_TESTES.md) registra 1.511 testes Vitest,
+O [relatório histórico da versão 1.6.1](docs/archive/test-report-1.6.1.md) registra 1.511 testes Vitest,
 50 Python, 98 Playwright e 130 verificações de conformidade aprovados. Esses
 números descrevem aquela execução; novas contribuições podem alterá-los.
 A [verificação da versão 1.6.1](docs/scroll_performance_1.6.1.md) cobre também
-a grade virtualizada e a rolagem no WebKitGTK nativo.
+a grade virtualizada e a rolagem no WebKitGTK nativo. A integração do ícone
+na 1.6.2 está documentada no [relatório atual](RELATORIO_TESTES.md).
 
 ## Convenções
 
@@ -68,7 +69,9 @@ a grade virtualizada e a rolagem no WebKitGTK nativo.
 - Preferências usam `localStorage` com tratamento de indisponibilidade. O estado
   instalado vem do sistema; flags do catálogo e backups não comprovam instalação.
 - Use `icon_mip.svg` da raiz como fonte do ícone. O empacotamento e a interface
-  devem continuar apontando para essa fonte.
+  devem continuar apontando para essa fonte. Após editar o desenho, execute
+  `python3 scripts/sync_icons.py` (requer `rsvg-convert`, de `librsvg2-bin`)
+  para regenerar o SVG público, PNGs e prévia antes de compilar.
 - Alterações no catálogo devem manter `src/data/initialApps.js` e `public/data/`
   sincronizados. Após alterar a fonte, execute `python3 scripts/migrate_catalog.py`.
 - Preserve a validação de origem, os limites de requisição e a política de

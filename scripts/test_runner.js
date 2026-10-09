@@ -141,7 +141,6 @@ function evaluateCardState(app, isSelected) {
   let colorTheme = 'neutral';
   if (isStagedForUninstall) colorTheme = 'red-orange';
   else if (isStagedForInstall) colorTheme = 'green-highlight';
-  else if (isInstalled) colorTheme = 'green-mint';
 
   return { isStagedForUninstall, isStagedForInstall, isCheckboxChecked, colorTheme };
 }
@@ -152,7 +151,7 @@ const uninstalledAppMock = { id: 'blender', name: 'Blender', installed: false };
 // Estado 1: App instalado em repouso
 const state1 = evaluateCardState(installedAppMock, false);
 assert(state1.isCheckboxChecked === true, 'App instalado em repouso tem checkbox marcado com check verde');
-assert(state1.colorTheme === 'green-mint', 'App instalado em repouso tem fundo verde Mint sutil');
+assert(state1.colorTheme === 'neutral', 'App instalado em repouso tem fundo neutro cinza GTK');
 
 // Estado 2: App instalado desmarcado para remoção
 const state2 = evaluateCardState(installedAppMock, true);
@@ -283,10 +282,10 @@ assert(fs.existsSync(path.join(process.cwd(), 'public/icons/software-manager.png
 assert(fs.existsSync(path.join(process.cwd(), 'public/favicon.png')), 'Favicon PNG em public/favicon.png');
 
 const desktopContent = fs.readFileSync(path.join(process.cwd(), 'app_manager.desktop'), 'utf-8');
-assert(desktopContent.includes('Icon=mint-install-pro'), 'app_manager.desktop aponta para Icon=mint-install-pro');
+assert(desktopContent.includes('Icon=/usr/share/mint-install-pro/icon_mip.svg'), 'app_manager.desktop referencia diretamente icon_mip.svg');
 
 const indexHtml = fs.readFileSync(path.join(process.cwd(), 'index.html'), 'utf-8');
-assert(indexHtml.includes('./icons/mint-install-pro.svg') || indexHtml.includes('mint-install-pro.svg'),
+assert(indexHtml.includes('./icon_mip.svg'),
   'index.html referencia o novo SVG');assert(appJsxContent2.includes('useCatalog'), 'App.jsx usa hook useCatalog');
 assert(appJsxContent2.includes('useFilteredApps'), 'App.jsx usa hook useFilteredApps');
 assert(appJsxContent2.includes('useBatchSelection'), 'App.jsx usa hook useBatchSelection');

@@ -27,6 +27,7 @@ import { useFilteredApps } from './hooks/useFilteredApps';
 import { useBatchSelection } from './hooks/useBatchSelection';
 import { useNavigation } from './hooks/useNavigation';
 import { debugLog } from './services/debugLog';
+import { packageKind } from './services/packageManager';
 
 const SETTINGS_KEY = 'mint_settings_v1';
 
@@ -64,8 +65,11 @@ export default function App() {
   // App array derivado de catalogIndex + installedMap
   const apps = useMemo(() => {
     if (!catalogIndex) return [];
-    return installedMap.applyToApps(catalogIndex.apps, false);
-  }, [catalogIndex, installedMap]);
+    return installedMap.applyToApps(catalogIndex.apps, false).map(app => ({
+      ...app,
+      removalProtection: packageKind(app) === 'apt' ? installedSnapshot?.protectedPackages?.[app.id] || '' : ''
+    }));
+  }, [catalogIndex, installedMap, installedSnapshot]);
 
   // === Settings (localStorage) ===
   const [settings, setSettings] = useState(() => {
@@ -91,10 +95,6 @@ export default function App() {
       console.error('Error saving settings', e);
     }
   }, []);
-
-  const handleResetDefaults = useCallback(() => {
-    handleSaveSettings(defaultSettings);
-  }, [handleSaveSettings]);
 
   // === UI state: search, installedOnly, selectedApp, isSettingsOpen ===
   const [searchQuery, setSearchQuery] = useState('');
@@ -369,8 +369,6 @@ export default function App() {
         onInstallBatch={handleStartBatchExecution}
         onUninstallBatch={handleStartBatchExecution}
         onClearSelection={handleClearSelection}
-        onSelectAllVisible={handleSelectAllVisible}
-        isAllVisibleSelected={isAllVisibleSelected}
       />
 
       <Suspense fallback={
@@ -409,7 +407,6 @@ export default function App() {
           onClose={() => setIsSettingsOpen(false)}
           settings={settings}
           onSaveSettings={handleSaveSettings}
-          onResetDefaults={handleResetDefaults}
           installedApps={apps.filter(app => app.installed)}
           onImportApps={ids => {
             const selected = apps.filter(app => ids.includes(app.id) && !app.installed).map(app => app.id);

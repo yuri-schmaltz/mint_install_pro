@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import appIcon from '../../icon_mip.svg';
 import {
   ChevronLeft,
   Search,
@@ -24,6 +25,19 @@ export default function HeaderBar({
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
+  const searchInputRef = useRef(null);
+
+  useEffect(() => {
+    const onKey = (event) => {
+      if ((event.ctrlKey || event.metaKey) && !event.altKey && event.key.toLowerCase() === 'f') {
+        event.preventDefault();
+        searchInputRef.current?.focus();
+        searchInputRef.current?.select();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   // Esc fecha About modal (escopo local — não interfere com outros handlers do App)
   useEffect(() => {
@@ -59,10 +73,14 @@ export default function HeaderBar({
             <Search className="h-3.5 w-3.5 text-[#8c919a]" />
           </div>
           <input
+            ref={searchInputRef}
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Pesquisar aplicativos..."
+            aria-label="Pesquisar aplicativos"
+            aria-keyshortcuts="Control+f Meta+f"
+            title="Pesquisar aplicativos (Ctrl+F)"
             className="w-full pl-8 pr-7 py-1 text-xs rounded-full bg-[#18191c] border border-[#2b2e33] text-[#f0f0f0] placeholder-[#7d828a] focus:outline-none focus:border-[#87cf3e] focus:ring-1 focus:ring-[#87cf3e] transition-all"
           />
           {searchQuery && (
@@ -134,7 +152,7 @@ export default function HeaderBar({
       {showAbout && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-[#2a2d32] border border-[#3b3f46] rounded-lg max-w-sm w-full p-5 shadow-2xl text-center">
-            <img src="./icons/mint-install-pro.svg" alt="Mint Install Pro" className="w-16 h-16 mx-auto mb-3 drop-shadow-md object-contain" />
+            <img src={appIcon} alt="Mint Install Pro" className="w-16 h-16 mx-auto mb-3 drop-shadow-md object-contain" />
             <h2 className="text-lg font-bold text-white">Gerenciador de Aplicativos</h2>
             <p className="text-xs text-[#87cf3e] font-semibold mt-0.5">Versão {APP_VERSION} (Clone Mint-Y Dark)</p>
             <p className="text-xs text-[#a4a9b2] mt-3 leading-relaxed">

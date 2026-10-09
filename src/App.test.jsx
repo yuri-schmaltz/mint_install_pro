@@ -208,13 +208,13 @@ describe('App Integration & End-to-End User Scenarios', () => {
     if (gimpCheckbox) fireEvent.click(gimpCheckbox);
 
     // BatchActionBar deve aparecer
-    expect(await screen.findByText(/1 selecionado/i)).toBeInTheDocument();
+    expect(await screen.findByRole('button', { name: /Executar Ações/i })).toBeInTheDocument();
 
     // Pressiona Escape para desmarcar
     fireEvent.keyDown(window, { key: 'Escape' });
 
     await waitFor(() => {
-      expect(screen.queryByText(/1 selecionado/i)).not.toBeInTheDocument();
+      expect(screen.queryByRole('button', { name: /Executar Ações/i })).not.toBeInTheDocument();
     });
   });
 
@@ -227,6 +227,7 @@ describe('App Integration & End-to-End User Scenarios', () => {
     fireEvent.keyDown(window, { key: 'a', ctrlKey: true });
 
     // Em Gráficos há 2 apps (GIMP e Blender)
-    expect(await screen.findByText(/2 selecionados/i)).toBeInTheDocument();
+    expect(await screen.findByText('1 para instalar')).toBeInTheDocument();
+    expect(await screen.findByText('1 para desinstalar')).toBeInTheDocument();
   });
 });

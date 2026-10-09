@@ -102,3 +102,38 @@ it('preserva aplicativo online selecionado após sair da busca', () => {
   rerender({ apps: [] });
   expect(result.current.selectedAppsList).toEqual([online]);
 });
+
+it('ignora componentes protegidos ao selecionar individualmente e com Marcar Todos', () => {
+  const apps = [
+    { id: 'cinnamon', installed: true, removalProtection: 'Interface gráfica.' },
+    { id: 'vlc', installed: true },
+    { id: 'gimp', installed: false }
+  ];
+  const { result } = renderHook(() => useBatchSelection(apps));
+  act(() => result.current.toggleApp('cinnamon'));
+  expect(result.current.selectedAppIds).toEqual([]);
+  act(() => result.current.selectAllVisible());
+  expect(result.current.selectedAppIds).toEqual(['vlc', 'gimp']);
+  expect(result.current.toUninstallApps.map(app => app.id)).toEqual(['vlc']);
+  expect(result.current.isAllVisibleSelected).toBe(true);
+  act(() => result.current.selectAllVisible());
+  expect(result.current.selectedAppIds).toEqual([]);
+});
+
+it('remove da seleção um componente que passou a ser protegido após atualização', () => {
+  const { result, rerender } = renderHook(({ apps }) => useBatchSelection(apps), {
+    initialProps: { apps: [{ id: 'component', installed: true }] }
+  });
+  act(() => result.current.toggleApp('component'));
+  expect(result.current.selectedAppIds).toEqual(['component']);
+  rerender({ apps: [{ id: 'component', installed: true, removalProtection: 'Componente de base.' }] });
+  expect(result.current.selectedAppIds).toEqual([]);
+  expect(result.current.selectedAppsList).toEqual([]);
+});
+
+it('permite instalar um componente protegido ainda não instalado', () => {
+  const apps = [{ id: 'component', installed: false, removalProtection: 'Componente de base.' }];
+  const { result } = renderHook(() => useBatchSelection(apps));
+  act(() => result.current.toggleApp('component'));
+  expect(result.current.toInstallApps).toHaveLength(1);
+});

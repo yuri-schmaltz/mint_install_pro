@@ -21,6 +21,7 @@ export default function AppDetailsModal({ app, onClose, onToggleInstall, operati
   if (!app) return null;
 
   const handleAction = async () => {
+    if (app.installed && app.removalProtection) return;
     setInstalling(true);
     onBusyChange(true);
     const isInstalling = !app.installed;
@@ -122,8 +123,9 @@ export default function AppDetailsModal({ app, onClose, onToggleInstall, operati
                 <div className="flex items-center space-x-2">
                   <button
                     onClick={handleAction}
-                    disabled={!operationsAvailable}
-                    className="flex items-center space-x-1.5 px-4 py-1.5 rounded text-xs font-semibold bg-[#3c4149] hover:bg-rose-900/60 hover:text-rose-200 text-[#d0d4dc] border border-[#4c525d] transition-all"
+                    disabled={!operationsAvailable || !!app.removalProtection}
+                    title={app.removalProtection ? `Remoção bloqueada: ${app.removalProtection}` : undefined}
+                    className="flex items-center space-x-1.5 px-4 py-1.5 rounded text-xs font-semibold bg-[#3c4149] hover:bg-rose-900/60 hover:text-rose-200 text-[#d0d4dc] border border-[#4c525d] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     <span>Remover</span>
@@ -202,6 +204,13 @@ export default function AppDetailsModal({ app, onClose, onToggleInstall, operati
               </div>
             </div>
           </div>
+
+          {app.installed && app.removalProtection && (
+            <div role="note" className="rounded border border-amber-700/50 bg-amber-950/30 p-3 text-sm text-amber-200">
+              <p className="font-semibold">Componente protegido do sistema — remoção bloqueada</p>
+              <p className="mt-1 text-xs">{app.removalProtection} A remoção poderia comprometer o funcionamento do computador.</p>
+            </div>
+          )}
 
           {/* User Reviews Mock */}
           <div>

@@ -1,3 +1,17 @@
+# 1.6.0 — operações em lote e proteção do sistema — 2026-10-09
+
+- Solicita uma única autorização administrativa por lote APT/Flatpak de sistema.
+- Identifica e bloqueia remoções de componentes protegidos, inclusive por dependências.
+- Ctrl+F e Cmd+F focam a pesquisa de aplicativos e selecionam o texto existente.
+- Posiciona as indicações de instalação/remoção à direita, na mesma linha do nome.
+- Remove o fundo verde dos aplicativos instalados, preservando o checkbox.
+- Remove o contador de selecionados e o botão Marcar Todos da barra inferior.
+- Remove a aba Sistema & Padrão e seus elementos das preferências.
+- Detecta resultados administrativos incompletos sem declarar sucesso nas pendências.
+- Amplia as suítes de testes e a verificação do conteúdo do pacote Debian.
+- Usa `icon_mip.svg` diretamente no menu do sistema, janela GTK, favicon e tela Sobre.
+- Atualiza manifesto, lockfile, documentação, versão exibida e pacote Debian para 1.6.0.
+
 # 1.5.7 — correção das preferências — 2026-09-28
 
 - Corrige erro `Check is not defined` ao salvar preferências, incluindo a opção de Flatpaks não verificados.

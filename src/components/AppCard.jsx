@@ -12,6 +12,7 @@ function AppCard({
   const [imgError, setImgError] = useState(false);
 
   const isInstalled = !!app.installed;
+  const removalBlocked = isInstalled && !!app.removalProtection;
   const isStagedForUninstall = isInstalled && isSelected;
   const isStagedForInstall = !isInstalled && isSelected;
 
@@ -19,14 +20,11 @@ function AppCard({
   let cardClass = 'border-[#2e3238] bg-[#2a2d33] hover:bg-[#32363e]';
 
   if (isStagedForUninstall) {
-    // Marcado para desinstalação (desmarcado o checkbox): fundo vermelho/laranja na mesma paleta e luminância do verde dos instalados
+    // Marcado para desinstalação (desmarcado o checkbox): fundo vermelho/laranja
     cardClass = 'bg-gradient-to-r from-[#332220] via-[#3a2522] to-[#332220] border-[#663830] ring-1 ring-amber-600/40 hover:bg-[#3d2724] hover:border-amber-500/60';
   } else if (isStagedForInstall) {
     // Marcado para instalação
     cardClass = 'bg-[#2b3a2e] border-[#87cf3e] ring-1 ring-[#87cf3e]';
-  } else if (isInstalled) {
-    // Instalado no sistema: fundo sutil verde Mint
-    cardClass = 'bg-gradient-to-r from-[#233126] via-[#263529] to-[#243126] border-[#384e36] hover:border-[#87cf3e]/70 hover:bg-[#28392c]';
   }
 
   // O checkbox aparece marcado se:
@@ -46,7 +44,7 @@ function AppCard({
       }}
       tabIndex={0}
       role="button"
-      aria-label={`${app.name}. ${app.fullSummary || app.summary || ''}${isInstalled ? ' Instalado' : ''}`}
+      aria-label={`${app.name}. ${app.fullSummary || app.summary || ''}${isInstalled ? ' Instalado' : ''}${removalBlocked ? '. Componente protegido do sistema' : ''}`}
       className={`gtk-card group relative flex items-center ${
         compact ? 'p-2 sm:p-2.5 h-[62px]' : 'p-2.5 sm:p-3 h-[74px]'
       } rounded-md cursor-pointer select-none transition-all duration-150 focus:outline-none focus:ring-2 focus:ring-[#87cf3e] focus:ring-offset-1 focus:ring-offset-[#26292d] ${cardClass}`}
@@ -61,11 +59,14 @@ function AppCard({
         <div
           onClick={(e) => {
             e.stopPropagation();
-            onToggleSelect(app.id);
+            if (!removalBlocked) onToggleSelect(app.id);
           }}
-          className="mr-2.5 flex items-center justify-center p-0.5 cursor-pointer z-10"
+          aria-disabled={removalBlocked || undefined}
+          className={`mr-2.5 flex items-center justify-center p-0.5 z-10 ${removalBlocked ? 'cursor-not-allowed' : 'cursor-pointer'}`}
           title={
-            isStagedForUninstall
+            removalBlocked
+              ? `Remoção bloqueada: ${app.removalProtection}`
+              : isStagedForUninstall
               ? "Desmarcado para desinstalação (clique para cancelar remoção)"
               : isStagedForInstall
                 ? "Marcado para instalação (clique para cancelar)"
@@ -108,22 +109,31 @@ function AppCard({
       </div>
 
       {/* App Info (Name and Summary) */}
-      <div className="flex-1 min-w-0 pr-8">
-        <div className="flex items-center space-x-1.5 min-w-0">
-          <h3 className="text-[13px] font-semibold text-[#f0f0f0] truncate min-w-0 leading-tight group-hover:text-white">
-            {app.name}
-          </h3>
-          {isStagedForUninstall ? (
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2 min-w-0">
+          <div className="flex items-center gap-1.5 min-w-0">
+            <h3 className="text-[13px] font-semibold text-[#f0f0f0] truncate min-w-0 leading-tight group-hover:text-white">
+              {app.name}
+            </h3>
+            {isInstalled && !removalBlocked && !isStagedForUninstall && (
+              <span className="flex-shrink-0 text-[10px] font-medium text-[#87cf3e]/80">•</span>
+            )}
+          </div>
+          {removalBlocked ? (
+            <span title={app.removalProtection} className="flex-shrink-0 text-[10px] font-semibold text-amber-300 bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-700/40">
+              Protegido
+            </span>
+          ) : isStagedForUninstall ? (
             <span className="flex-shrink-0 text-[9.5px] font-bold text-amber-400 bg-amber-950/80 px-1.5 py-0.5 rounded border border-amber-600/50 shadow-xs whitespace-nowrap">
               Desinstalar
             </span>
-          ) : isInstalled ? (
-            <span className="flex-shrink-0 text-[10px] font-medium text-[#87cf3e]/80">
-              •
+          ) : isStagedForInstall ? (
+            <span className="flex-shrink-0 text-[9.5px] font-bold text-[#87cf3e] bg-[#132802]/70 px-1.5 py-0.5 rounded border border-[#87cf3e]/50 shadow-xs whitespace-nowrap">
+              Instalar
             </span>
           ) : null}
         </div>
-        <p className="text-[11.5px] text-[#9ca3af] truncate mt-1 leading-tight font-normal">
+        <p className="text-[11.5px] text-[#9ca3af] truncate pr-8 mt-1 leading-tight font-normal">
           {app.summary}
         </p>
       </div>

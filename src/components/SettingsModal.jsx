@@ -5,10 +5,8 @@ import {
   Settings,
   Search,
   Boxes,
-  RotateCcw,
   Check,
   HardDrive,
-  Monitor,
   ChevronDown
 } from 'lucide-react';
 import { pushToast } from './Toast';
@@ -18,13 +16,12 @@ export default function SettingsModal({
   onClose, 
   settings, 
   onSaveSettings,
-  onResetDefaults,
   onClearCache,
   installedApps = [],
   onImportApps = () => {}
 }) {
 
-  const [activeTab, setActiveTab] = useState('search'); // 'search' | 'flatpak' | 'security' | 'system'
+  const [activeTab, setActiveTab] = useState('search'); // 'search' | 'flatpak' | 'operations'
   const [localSettings, setLocalSettings] = useState(settings);
   const [savedToast, setSavedToast] = useState(false);
   useEffect(() => { setLocalSettings(settings); }, [settings]);
@@ -97,17 +94,6 @@ export default function SettingsModal({
             <span className="truncate">Operações & Lote</span>
           </button>
 
-          <button
-            onClick={() => setActiveTab('system')}
-            className={`flex-1 py-2.5 px-2 flex items-center justify-center space-x-1.5 border-b-2 transition-colors text-center ${
-              activeTab === 'system'
-                ? 'border-[#87cf3e] text-white font-semibold bg-[#2a2e34]'
-                : 'border-transparent text-[#9ca3af] hover:text-[#dcdcdc] hover:bg-[#282b30]'
-            }`}
-          >
-            <Monitor className="w-3.5 h-3.5 flex-shrink-0" />
-            <span className="truncate">Sistema & Padrão</span>
-          </button>
         </div>
 
         {/* Tab Contents */}
@@ -338,64 +324,6 @@ export default function SettingsModal({
             </div>
           )}
 
-          {/* 4. Sistema & Gerenciador Padrão */}
-          {activeTab === 'system' && (
-            <div className="space-y-4">
-              {/* Integração com o Sistema Operacional */}
-              <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#87cf3e] mb-2 flex items-center space-x-1.5">
-                  <Monitor className="w-3.5 h-3.5" />
-                  <span>Integração com o Sistema Operacional</span>
-                </h3>
-                <div className="bg-[#202226] border border-[#32363c] rounded-lg divide-y divide-[#2a2d33]">
-
-                  <p className="p-4 text-xs text-[#a4a9b2]">A instalação do pacote .deb adiciona o aplicativo ao menu do sistema. Associações de arquivos e o gerenciador padrão são configurados nas preferências do Linux Mint.</p>
-
-                </div>
-              </div>
-
-              {/* Manutenção do Cache e Dados */}
-              <div>
-                <h3 className="text-xs font-bold uppercase tracking-wider text-[#87cf3e] mb-2 flex items-center space-x-1.5">
-                  <HardDrive className="w-3.5 h-3.5" />
-                  <span>Manutenção do Cache e Dados</span>
-                </h3>
-                <div className="bg-[#202226] border border-[#32363c] rounded-lg p-4 space-y-3">
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-white font-medium">Recarregar Catálogo e Cache</div>
-                      <div className="text-[11px] text-[#8e95a0]">Ressincroniza os pacotes e ícones com os arquivos locais do Linux Mint</div>
-                    </div>
-                    <button
-                      onClick={onClearCache}
-                      className="px-3 py-1.5 rounded bg-[#35393f] hover:bg-[#434850] text-[#dcdcdc] font-medium border border-[#444a53] transition-colors"
-                    >
-                      Atualizar Agora
-                    </button>
-                  </div>
-
-                  <div className="h-px bg-[#2d3137]" />
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="text-white font-medium">Restaurar Preferências Padrão</div>
-                      <div className="text-[11px] text-[#8e95a0]">Restaura todas as configurações para as opções recomendadas</div>
-                    </div>
-                    <button
-                      onClick={onResetDefaults}
-                      className="px-3 py-1.5 rounded bg-rose-900/30 hover:bg-rose-900/50 text-rose-300 font-medium border border-rose-700/40 transition-colors flex items-center space-x-1"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>Restaurar</span>
-                    </button>
-                  </div>
-
-                </div>
-              </div>
-            </div>
-          )}
-
         </div>
 
         {/* Footer */}
@@ -426,6 +354,5 @@ SettingsModal.propTypes = {
   onClose: PropTypes.func.isRequired,
   settings: PropTypes.object.isRequired,
   onSaveSettings: PropTypes.func.isRequired,
-  onResetDefaults: PropTypes.func.isRequired,
   onClearCache: PropTypes.func.isRequired
 };

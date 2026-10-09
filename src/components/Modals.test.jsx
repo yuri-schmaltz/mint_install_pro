@@ -89,7 +89,6 @@ describe('SettingsModal Component Tests', () => {
         onClose={() => {}}
         settings={mockSettings}
         onSaveSettings={() => {}}
-        onResetDefaults={() => {}}
         onClearCache={() => {}}
       />
     );
@@ -103,7 +102,6 @@ describe('SettingsModal Component Tests', () => {
         onClose={() => {}}
         settings={mockSettings}
         onSaveSettings={() => {}}
-        onResetDefaults={() => {}}
         onClearCache={() => {}}
       />
     );
@@ -118,7 +116,7 @@ describe('SettingsModal Component Tests', () => {
   it('ativa e desativa Flatpaks não verificados exibindo a confirmação de salvamento', () => {
     const onSaveSettings = vi.fn();
     render(<SettingsModal isOpen settings={mockSettings} onClose={() => {}}
-      onSaveSettings={onSaveSettings} onResetDefaults={() => {}} onClearCache={() => {}} />);
+      onSaveSettings={onSaveSettings} onClearCache={() => {}} />);
     fireEvent.click(screen.getByRole('button', { name: /Flatpaks/i }));
     const checkbox = screen.getByRole('checkbox', { name: /Incluir resultados online não verificados/i });
     fireEvent.click(checkbox);
@@ -138,7 +136,6 @@ describe('SettingsModal Component Tests', () => {
         onClose={onClose}
         settings={mockSettings}
         onSaveSettings={() => {}}
-        onResetDefaults={() => {}}
         onClearCache={() => {}}
       />
     );
@@ -146,4 +143,16 @@ describe('SettingsModal Component Tests', () => {
     fireEvent.click(closeBtn);
     expect(onClose).toHaveBeenCalledTimes(1);
   });
+});
+
+it('avisa e desabilita Remover para um componente protegido do sistema', () => {
+  const app = { id: 'cinnamon', name: 'Cinnamon', installed: true, rating: 4.5,
+    removalProtection: 'Componente da interface gráfica e da sessão do sistema.' };
+  const toggle = vi.fn();
+  render(<AppDetailsModal app={app} onClose={() => {}} onToggleInstall={toggle} />);
+  expect(screen.getByText('Componente protegido do sistema — remoção bloqueada')).toBeInTheDocument();
+  const remove = screen.getByRole('button', { name: 'Remover', exact: true });
+  expect(remove).toBeDisabled();
+  fireEvent.click(remove);
+  expect(toggle).not.toHaveBeenCalled();
 });

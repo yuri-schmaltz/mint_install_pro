@@ -5,7 +5,16 @@ import App from '../App';
 import { pushEmergencyLog } from '../services/debugLog';
 
 // Mock packageManager
-vi.mock('../services/packageManager', () => ({
+vi.mock('../services/packageManager', async importOriginal => ({
+  ...await importOriginal(),
+  executeBatch: vi.fn(async (apps, onLog, onEvent) => {
+    for (let index = 0; index < apps.length; index++) {
+      onEvent({ index, status: 'processing' });
+      onLog(`[TEST] Processando ${apps[index].id}...`);
+      await new Promise(resolve => setTimeout(resolve, 40));
+      onEvent({ index, result: { success: true } });
+    }
+  }),
   executeInstall: vi.fn(async (app, onLog) => {
     onLog?.(`[TEST] Instalando ${app.id}...`);
     await new Promise(r => setTimeout(r, 40));
@@ -75,7 +84,7 @@ describe('Gray Screen Stress & Batch Action Investigation', () => {
 
     // BatchActionBar deve aparecer
     await waitFor(() => {
-      expect(screen.getByText(/1 selecionado/i)).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /Executar Ações/i })).toBeInTheDocument();
     });
 
     const executeBtn = screen.getByRole('button', { name: /Executar Ações/i });

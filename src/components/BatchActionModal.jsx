@@ -10,7 +10,7 @@ import {
   Terminal,
   FileText
 } from 'lucide-react';
-import { executeInstall, executeUninstall } from '../services/packageManager';
+import { executeBatch } from '../services/packageManager';
 import { debugLog } from '../services/debugLog';
 
 export default function BatchActionModal({
@@ -51,72 +51,27 @@ export default function BatchActionModal({
         const successfullyInstalled = [];
         const successfullyUninstalled = [];
 
-        for (let i = 0; i < targetApps.length; i++) {
-          if (isCancelled) break;
-          const currentApp = targetApps[i];
+        await executeBatch(targetApps, (msg) => {
+          if (!isCancelled) setLogs(prev => [...prev, msg]);
+        }, ({ index, status, result }) => {
+          if (isCancelled) return;
+          const currentApp = targetApps[index];
           const currentAction = currentApp.batchAction || (currentApp.installed ? 'uninstall' : 'install');
-          setCurrentIndex(i);
-          debugLog('debug', 'BatchActionModal', `processando ${currentApp.id}`, { i, action: currentAction });
-
-          // Update to processing
-          setAppStatuses(prev =>
-            prev.map((item, idx) => idx === i ? { ...item, status: 'processing' } : item)
-          );
-
-          let res;
-          try {
-            if (currentAction === 'install') {
-              res = await executeInstall(currentApp, (msg) => {
-                if (!isCancelled) setLogs(prev => [...prev, msg]);
-              });
-              debugLog('debug', 'BatchActionModal', `install result ${currentApp.id}`, {
-                ok: res?.success, simulated: res?.simulated
-              });
-            } else {
-              res = await executeUninstall(currentApp, (msg) => {
-                if (!isCancelled) setLogs(prev => [...prev, msg]);
-              });
-              debugLog('debug', 'BatchActionModal', `uninstall result ${currentApp.id}`, {
-                ok: res?.success, simulated: res?.simulated
-              });
-            }
-          } catch (opErr) {
-            // Defesa: se executeInstall/Uninstall rejeitar (raro, mas pode
-            // acontecer com timeout de rede ou backend caído), loga e segue
-            // para o próximo. Não derruba a fila inteira.
-            debugLog('error', 'BatchActionModal', `op threw para ${currentApp.id}`, {
-              msg: String(opErr.message || opErr)
-            });
-            if (!isCancelled) {
-              setLogs(prev => [...prev, `[ERRO] ${currentApp.name}: ${String(opErr.message || opErr)}`]);
-            }
-            res = { success: false, output: String(opErr.message || opErr) };
+          setCurrentIndex(index);
+          if (status === 'processing') {
+            debugLog('debug', 'BatchActionModal', `processando ${currentApp.id}`, { i: index, action: currentAction });
+            setAppStatuses(prev => prev.map((item, idx) => idx === index ? { ...item, status } : item));
+            return;
           }
-
-          if (!isCancelled) {
-            if (currentAction === 'install') {
-              if (res?.success === true) {
-                successfullyInstalled.push(currentApp.id);
-                setLogs(prev => [...prev, `[SUCESSO] ${currentApp.name} instalado no sistema!`]);
-              } else {
-                setLogs(prev => [...prev, `[AVISO] ${currentApp.name}: ${(res && res.output) || 'Concluído com aviso'}`]);
-              }
-            } else {
-              // uninstall: só conta como sucesso se res.success for explicitamente true
-              if (res?.success === true) {
-                successfullyUninstalled.push(currentApp.id);
-                setLogs(prev => [...prev, `[SUCESSO] ${currentApp.name} removido do sistema!`]);
-              } else {
-                setLogs(prev => [...prev, `[AVISO] ${currentApp.name}: ${(res && res.output) || 'Concluído com aviso'}`]);
-              }
-            }
-
-            // Mark as done
-            setAppStatuses(prev =>
-              prev.map((item, idx) => idx === i ? { ...item, status: res?.success === true ? 'done' : 'error' } : item)
-            );
+          if (result?.success === true && !result.simulated) {
+            (currentAction === 'install' ? successfullyInstalled : successfullyUninstalled).push(currentApp.id);
+            setLogs(prev => [...prev, `[SUCESSO] ${currentApp.name} ${currentAction === 'install' ? 'instalado' : 'removido'} no sistema!`]);
+          } else {
+            setLogs(prev => [...prev, `[AVISO] ${currentApp.name}: ${result?.output || 'Operação falhou.'}`]);
           }
-        }
+          setAppStatuses(prev => prev.map((item, idx) => idx === index
+            ? { ...item, status: result?.success === true && !result.simulated ? 'done' : 'error' } : item));
+        });
 
         if (!isCancelled) {
           setLogs(prev => [...prev, `[SISTEMA] Fila finalizada: ${successfullyInstalled.length + successfullyUninstalled.length} sucesso(s), ${targetApps.length - successfullyInstalled.length - successfullyUninstalled.length} falha(s).`]);
@@ -206,7 +161,7 @@ export default function BatchActionModal({
         <h3 className="font-bold">Confirmar operações em lote</h3>
         <p>{appStatuses.filter(a => a.action === 'install').length} para instalar e {appStatuses.filter(a => a.action === 'uninstall').length} para remover.</p>
         <ul className="max-h-48 overflow-y-auto text-sm">{appStatuses.map(a => <li key={a.id}>{a.action === 'install' ? 'Instalar' : 'Remover'}: {a.name}</li>)}</ul>
-        <p className="text-xs text-[#a4a9b2]">Flatpaks serão instalados para seu usuário. A remoção inclui as instalações do usuário e do sistema.</p>
+        <p className="text-xs text-[#a4a9b2]">O lote solicita uma única autorização administrativa quando necessária. Flatpaks serão instalados para seu usuário. A remoção inclui as instalações do usuário e do sistema.</p>
         <div className="flex gap-3 justify-end">
           <button onClick={onClose} className="px-4 py-2">Cancelar</button>
           <button onClick={() => setConfirmed(true)} className="px-4 py-2 rounded bg-[#87cf3e] text-black">Confirmar e executar</button>

@@ -76,8 +76,8 @@ test.describe('Mint Install Pro — fluxo E2E principal', () => {
     // Ctrl+A marca todos visíveis
     await page.keyboard.press('Control+a');
     await page.waitForTimeout(200);
-    // BatchActionBar deve aparecer com contador > 0
-    await expect(page.locator('text=/\\d+ selecionado/')).toBeVisible({ timeout: 3000 });
+    // BatchActionBar deve aparecer com a ação de execução disponível
+    await expect(page.getByRole('button', { name: /Executar Ações/ })).toBeVisible({ timeout: 3000 });
   });
 
   test('navegação não ressuscita DebugDock (regressão)', async ({ page }) => {

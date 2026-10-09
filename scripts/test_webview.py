@@ -15,7 +15,7 @@ class NativeWebViewTests(unittest.TestCase):
             gi.require_version('Gtk', '3.0')
             gi.require_version('WebKit2', '4.1')
             from gi.repository import Gtk, WebKit2, GLib
-        except (ImportError, ValueError):
+        except (ImportError, ValueError, AttributeError):
             self.skipTest('GTK/WebKit2 unavailable')
         if not Gtk.init_check()[0]:
             self.skipTest('GTK display unavailable')
@@ -28,10 +28,11 @@ class NativeWebViewTests(unittest.TestCase):
         progress = []
         def snapshot():
             return {'apt': sorted(installed), 'flatpaks': [], 'aptStatus': 'available', 'flatpakStatus': 'available'}
-        def operate(action, data):
-            calls.append((action, data))
-            installed.add(data['id'])
-            return {'success': True, 'output': 'native test operation'}
+        def operate_batch(plan):
+            for index, data in enumerate(plan[0]):
+                calls.append((data['action'], data))
+                installed.add(data['id'])
+                yield {'index': index, 'result': {'success': True, 'output': 'native test operation'}}
         script = '''
         (() => {
           const text = document.body.innerText;
@@ -61,7 +62,7 @@ class NativeWebViewTests(unittest.TestCase):
           return 'waiting: ' + text.slice(-1000);
         })()
         '''
-        with patch.object(backend, 'installed', snapshot), patch.object(backend, 'operate', operate):
+        with patch.object(backend, 'installed', snapshot), patch.object(backend, 'operate_batch', operate_batch):
             server = backend.PackageServer(('127.0.0.1', 0), directory=str(dist))
             thread = threading.Thread(target=server.serve_forever, daemon=True)
             thread.start()

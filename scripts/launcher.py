@@ -31,7 +31,7 @@ def try_gtk_webview(url):
         win.set_default_size(1200, 780)
         win.set_position(Gtk.WindowPosition.CENTER)
 
-        icon_path = "/usr/share/icons/hicolor/96x96/apps/mint-install-pro.png"
+        icon_path = os.path.join(APP_DIR, 'icon_mip.svg')
         if os.path.exists(icon_path):
             win.set_icon_from_file(icon_path)
 

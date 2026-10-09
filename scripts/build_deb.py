@@ -38,6 +38,7 @@ if not os.path.exists(dist_dir):
     raise RuntimeError("Diretório dist/ não encontrado. Execute 'npm run build' primeiro.")
 
 shutil.copytree(dist_dir, f"{DEB_DIR}/usr/share/{PACKAGE_NAME}", dirs_exist_ok=True)
+shutil.copy('icon_mip.svg', f'{DEB_DIR}/usr/share/{PACKAGE_NAME}/icon_mip.svg')
 
 # 2. Criar script executável /usr/bin/mint-install-pro
 launcher_content = open("scripts/launcher.py", encoding="utf-8").read()
@@ -63,7 +64,7 @@ Name=Mint Install Pro
 Comment=Gerenciador de Aplicativos Moderno para Linux Mint
 Comment[pt_BR]=Gerenciador de Aplicativos Moderno para Linux Mint
 Exec=mint-install-pro
-Icon=mint-install-pro
+Icon=/usr/share/mint-install-pro/icon_mip.svg
 Terminal=false
 Categories=GNOME;GTK;System;Settings;PackageManager;
 Keywords=package;apt;software;install;uninstall;flatpak;flathub;
@@ -73,12 +74,11 @@ StartupNotify=true
 with open(f"{DEB_DIR}/usr/share/applications/{PACKAGE_NAME}.desktop", "w", encoding="utf-8") as f:
     f.write(desktop_content)
 
-# 4. Copiar ícones (v1.5.0: Grid Mint — matriz 3x3 com folha centralizada)
+# 4. Registrar o SVG canônico também no tema hicolor.
 shutil.copy("public/icons/hicolor-96x96.png",
             f"{DEB_DIR}/usr/share/icons/hicolor/96x96/apps/{PACKAGE_NAME}.png")
-if os.path.exists("public/icons/mint-install-pro.svg"):
-    shutil.copy("public/icons/mint-install-pro.svg",
-                f"{DEB_DIR}/usr/share/icons/hicolor/scalable/apps/{PACKAGE_NAME}.svg")
+shutil.copy('icon_mip.svg',
+            f'{DEB_DIR}/usr/share/icons/hicolor/scalable/apps/{PACKAGE_NAME}.svg')
 
 # 5. Criar DEBIAN/control
 control_content = f"""Package: {PACKAGE_NAME}

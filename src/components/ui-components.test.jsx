@@ -181,8 +181,6 @@ describe('BatchActionBar Component Tests', () => {
         toInstallCount={0}
         toUninstallCount={0}
         onClearSelection={() => {}}
-        onSelectAllVisible={() => {}}
-        isAllVisibleSelected={false}
       />
     );
     expect(container.firstChild).toBeNull();
@@ -198,11 +196,8 @@ describe('BatchActionBar Component Tests', () => {
         toUninstallCount={1}
         onExecuteBatch={onExecute}
         onClearSelection={onClear}
-        onSelectAllVisible={() => {}}
-        isAllVisibleSelected={false}
       />
     );
-    expect(screen.getByText(/3 selecionados/i)).toBeInTheDocument();
     expect(screen.getByText(/2 para instalar/i)).toBeInTheDocument();
     expect(screen.getByText(/1 para desinstalar/i)).toBeInTheDocument();
 
@@ -214,4 +209,15 @@ describe('BatchActionBar Component Tests', () => {
     fireEvent.click(clearBtn);
     expect(onClear).toHaveBeenCalledTimes(1);
   });
+});
+
+it('identifica componentes protegidos e bloqueia a seleção para remover', () => {
+  const app = { id: 'cinnamon', name: 'Cinnamon', installed: true, removalProtection: 'Interface gráfica do sistema.' };
+  const onToggleSelect = vi.fn();
+  render(<AppCard app={app} onClick={() => {}} onToggleSelect={onToggleSelect} />);
+  expect(screen.getByText('Protegido')).toBeInTheDocument();
+  const selector = screen.getByTitle('Remoção bloqueada: Interface gráfica do sistema.');
+  expect(selector).toHaveAttribute('aria-disabled', 'true');
+  fireEvent.click(selector);
+  expect(onToggleSelect).not.toHaveBeenCalled();
 });

@@ -89,7 +89,7 @@ Architecture: all
 Depends: python3, python3-gi, gir1.2-gtk-3.0, gir1.2-webkit2-4.1 | gir1.2-webkit2-4.0
 Recommends: flatpak, policykit-1, libglib2.0-bin
 Maintainer: Yuri Schmaltz <yuri.schmaltz@gmail.com>
-Homepage: https://github.com/yuri-schmaltz/mint-install-pro
+Homepage: https://github.com/yuri-schmaltz/mint_install_pro
 Description: Gerenciador de Aplicativos Moderno para Linux Mint (MintInstall Clone)
  Clone interativo e de alto desempenho do Gerenciador de Aplicativos
  do Linux Mint (MintInstall), com fidelidade ao tema Mint-Y Dark,

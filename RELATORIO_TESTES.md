@@ -16,6 +16,9 @@ O ESLint também terminou sem erros ou avisos. O build de produção foi executa
 pelo Playwright antes da suíte de produção. O pacote `.deb` foi regenerado e seu
 conteúdo conferido: todos os arquivos do bundle, ausência de arquivos extras,
 ícones, launcher executável, backend, nome, versão, arquitetura e sintaxe Python.
+Na preparação do release, a auditoria identificou vulnerabilidades nas ferramentas
+de compilação. As dependências foram atualizadas e as suítes executadas novamente;
+`npm audit --audit-level=moderate` passou com zero vulnerabilidades.
 
 ## Cobertura acrescentada
 

@@ -18,7 +18,7 @@ Obrigado pelo interesse em contribuir com o **Mint Install Pro**! Este projeto �
 ### Configuração Inicial
 ```bash
 # Clone o repositório
-git clone https://github.com/yuri-schmaltz/mint-install-pro.git
+git clone https://github.com/yuri-schmaltz/mint_install_pro.git
 cd mint-install-pro
 
 # Instale as dependências

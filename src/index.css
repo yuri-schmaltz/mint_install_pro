@@ -1,8 +1,35 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@config "../tailwind.config.js";
+
+/* Preserve the existing GTK layout and v3 utility sizes with Tailwind v4. */
+@theme {
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --radius-sm: 0.125rem;
+  --blur-sm: 4px;
+  --drop-shadow-sm: 0 1px 1px rgb(0 0 0 / 0.05);
+}
+
+@utility flex-shrink-0 {
+  flex-shrink: 0;
+}
+
+@utility rounded {
+  border-radius: 0.25rem;
+}
+
+@utility bg-gradient-to-r {
+  @apply bg-linear-to-r;
+}
+
+@utility bg-gradient-to-br {
+  @apply bg-linear-to-br;
+}
 
 @layer base {
+  button, [role="button"] {
+    cursor: pointer;
+  }
+
   body {
     background-color: #26292d;
     color: #e4e4e4;

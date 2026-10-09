@@ -11,6 +11,7 @@
 - Amplia as suítes de testes e a verificação do conteúdo do pacote Debian.
 - Usa `icon_mip.svg` diretamente no menu do sistema, janela GTK, favicon e tela Sobre.
 - Atualiza manifesto, lockfile, documentação, versão exibida e pacote Debian para 1.6.0.
+- Atualiza as ferramentas de compilação para eliminar vulnerabilidades reportadas na auditoria de dependências.
 
 # 1.5.7 — correção das preferências — 2026-09-28
 

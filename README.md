@@ -7,8 +7,8 @@ necessária, válida para todo o lote. Flatpaks do usuário dispensam essa autor
 Componentes essenciais e de base do sistema aparecem como protegidos e têm a
 remoção bloqueada, inclusive quando seriam removidos como dependência.
 
-Versão **1.6.0** — pacote local `mint-install-pro_1.6.0_all.deb`. Veja as mudanças em
-[CHANGELOG.md](CHANGELOG.md).
+Versão **1.6.0** — [release e download do pacote .deb](https://github.com/yuri-schmaltz/mint_install_pro/releases/tag/v1.6.0).
+Veja as mudanças em [CHANGELOG.md](CHANGELOG.md).
 
 ## Funcionalidades
 
